@@ -5,13 +5,13 @@
    Description     : This is the module for the overall fetch stage of the processor.
 */
 `default_nettype none
-module fetch (in_PC, clk, rst, pc2D, pcAdd2, I_mem_out/* TODO: Add appropriate inputs/outputs for your fetch stage here*/);
+module fetch (in_PC, clk, rst, PC_2_D, PC_2, I_mem_out/* TODO: Add appropriate inputs/outputs for your fetch stage here*/);
 
    // TODO: Your code here
    input wire clk, rst;
    input wire [15:0] in_PC;
    
-   output wire [15:0] pcAdd2, pc2D;
+   output wire [15:0] PC_2, PC_2_D;
    output wire [15:0] I_mem_out; 
    
    wire [15:0] out_PC;
@@ -21,11 +21,11 @@ module fetch (in_PC, clk, rst, pc2D, pcAdd2, I_mem_out/* TODO: Add appropriate i
    wire cOut;
    
    pc pc1 (.in_PC(in_PC), .out_PC(out_PC), .clk(clk), .rst(rst));
-   cla16b pc_add_2 (.sum(pcAdd2), .cOut(cOut), .inA(out_PC), .inB(2), .cIn(0));
+   cla16b pc_add_2 (.sum(PC_2), .cOut(cOut), .inA(out_PC), .inB(2), .cIn(0));
    
    memory2c mem_fetch(.data_out(I_mem_out), .data_in(data_in), .addr(in_PC), .enable(1), .wr(0), .createdump(0), .clk(clk), .rst(rst));
    assign I_sl1 = {I_mem_out[10:0], 1'b0};
-   assign pc2D = {pcAdd2[15:12], I_sl1};
+   assign PC_2_D = {PC_2[15:12], I_sl1};
    
    
 endmodule

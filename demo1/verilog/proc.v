@@ -24,10 +24,12 @@ module proc (/*AUTOARG*/
    
    
    /* your code here -- should include instantiations of fetch, decode, execute, mem and wb modules */
-	wire [15:0] in_PC, pc2D, pcAdd2, I_mem_out;
-	fetch (.in_PC(in_PC), .clk(clk), .rst(rst), .pc2D(pc2D), .pcAdd2(pcAdd2), .I_mem_out(I_mem_out));
-	
-	
+	wire [15:0] in_PC, PC_2_D, PC_2, I_mem_out, read1OutData, read2OutData, writeInData, ALU_out;
+	wire [1:0] mux_sel;
+	wire writeEn;
+	fetch F(.in_PC(in_PC), .clk(clk), .rst(rst), .PC_2_D(PC_2_D), .PC_2(PC_2), .I_mem_out(I_mem_out));
+	decode D(.read1OutData(read1OutData), .read2OutData(read2OutData), .clk(clk), .rst(rst), .I_mem_out(I_mem_out), .writeInData(writeInData), .writeEn(writeEn), .mux_sel(mux_sel));
+	execute EX(.PC_next(in_PC), .ALU_out(ALU_out), .read1OutData(read1OutData), .read2OutData(read2OutData), .I_mem_out(I_mem_out), .PC_2(PC_2), .PC_2_D(PC_2_D), .ALU_Oper(/*ALU_Oper*/), .ALU_mux_sel(/*ALU_mux_sel*/), .not_mux_sel(/*not_mux_sel*/));
 	
 endmodule // proc
 `default_nettype wire
