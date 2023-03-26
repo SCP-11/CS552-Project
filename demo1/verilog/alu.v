@@ -10,7 +10,7 @@
     (OFL).
 */
 `default_nettype none
-module alu (InA, InB, Cin, Oper, invA, invB, sign, Out, Zero, Ofl);
+module alu (InA, InB, Cin, Oper, invA, invB, sign, Out, Zero, Ofl, cOut);
 
     parameter OPERAND_WIDTH = 16;    
     parameter NUM_OPERATIONS = 3;
@@ -25,12 +25,12 @@ module alu (InA, InB, Cin, Oper, invA, invB, sign, Out, Zero, Ofl);
     output wire [OPERAND_WIDTH -1:0] Out ; // Result of comput wireation
     output wire                      Ofl ; // Signal if overflow occured
     output wire                      Zero; // Signal if Out is 0
+	output wire						cOut;
 
     /* YOUR CODE HERE */
 	wire[OPERAND_WIDTH-1:0] shiterOut;
 	wire[OPERAND_WIDTH-1:0] InAIn, InAf, InBIn, InBf;
 	wire[OPERAND_WIDTH-1:0] addAB, andAB, orAB, xorAB;
-	wire cOut;
 	
 	inverter inverterA (.In(InA), .Out(InAIn));
 	inverter inverterB (.In(InB), .Out(InBIn));
@@ -55,5 +55,6 @@ module alu (InA, InB, Cin, Oper, invA, invB, sign, Out, Zero, Ofl);
 					:shiterOut;
 	overflow over0 (.Cout(cOut), .S(addAB[OPERAND_WIDTH-1]), .A(InAf[OPERAND_WIDTH-1]), .B(InBf[OPERAND_WIDTH-1]), .sign(sign), .Out(Ofl));
 	assign Zero = (Out == 16'b0)? 1'b1: 1'b0;
+	
 endmodule
 `default_nettype wire
