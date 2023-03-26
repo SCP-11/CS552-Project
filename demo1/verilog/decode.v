@@ -18,15 +18,20 @@ module decode (read1OutData, read2OutData, I_mux_out, clk, rst, I_mem_out, write
 	wire err;
 	wire [2:0] out_rf_mux;
    // TODO: Your code here
-   assign out_rf_mux = (rf_mux[1])? (rf_mux[0])? 16'h0007: I_mem_out[4:2]:
-						(rf_mux[0])? rf_mux[10:8]: I_mem_out[10:8];
-   rf rf1(.read1OutData(read1OutData), .read2OutData(read2OutData), 
+   assign out_rf_mux = (rf_mux[1])? (rf_mux[0])? 3'b111: I_mem_out[4:2]:
+						(rf_mux[0])? I_mem_out[7:5]: I_mem_out[10:8];
+   rf regFile0(.read1OutData(read1OutData), .read2OutData(read2OutData), 
 			.err(err), .clk(clk), .rst(rst), .read1RegSel(I_mem_out[10:8]), 
 			.read2RegSel(I_mem_out[7:5]), .writeRegSel(out_rf_mux), .writeInData(writeInData),
 			.writeEn(rf_writeEn));
    
-   mux4_1 I_mux [0:15] (.out(I_mux_out), .inputA({{11{I_mem_out[4]}}, I_mem_out[4:0]}),
+	/*mux4_1 I_mux [0:15] (.out(I_mux_out), .inputA({{11{I_mem_out[4]}}, I_mem_out[4:0]}),
 			.inputB({11'b0, I_mem_out[4:0]}), .inputC({{8{I_mem_out[7]}}, I_mem_out[7:0]}),
-			.inputD({8'b0, I_mem_out[7:0]}), .sel(I_sel));
+			.inputD({8'b0, I_mem_out[7:0]}), .sel(I_sel));*/
+			
+	assign I_mux_out = (I_sel[1])? (I_sel[0])? {8'b0, I_mem_out[7:0]} //11, 8 zero
+											: {{8{I_mem_out[7]}}, I_mem_out[7:0]} //10, 8 sign
+								:(I_sel[0])? {11'b0, I_mem_out[4:0]} //01, 5 zero
+								: {{11{I_mem_out[4]}}, I_mem_out[4:0]}; //00, 5 sign
 endmodule
 `default_nettype wire

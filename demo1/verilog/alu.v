@@ -47,10 +47,10 @@ module alu (InA, InB, Cin, Oper, invA, invB, sign, Out, Zero, Ofl, cOut);
     assign Out = (Oper[NUM_OPERATIONS-1])? 
 					(Oper[NUM_OPERATIONS-2])?
 						(Oper[NUM_OPERATIONS-3])?
-							xorAB
-							:orAB
-						:(Oper[NUM_OPERATIONS-3])?
 							andAB
+							:xorAB
+						:(Oper[NUM_OPERATIONS-3])?
+							addAB
 							:addAB
 					:shiterOut;
 	overflow over0 (.Cout(cOut), .S(addAB[OPERAND_WIDTH-1]), .A(InAf[OPERAND_WIDTH-1]), .B(InBf[OPERAND_WIDTH-1]), .sign(sign), .Out(Ofl));

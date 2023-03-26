@@ -23,20 +23,20 @@ module shifter (InBS, ShAmt, ShiftOper, OutBS);
 	wire [SHAMT_WIDTH-1:0]shift;
 	wire [OPERAND_WIDTH -1:0] shift1, shift2, shift4, shift8;
    /* YOUR CODE HERE */
-	assign shift1 = (ShAmt[0]) ? (ShiftOper[0])?{(ShiftOper[1])?InBS[OPERAND_WIDTH-1]:1'b0, InBS[OPERAND_WIDTH-1:1]}:{InBS[OPERAND_WIDTH-2:0], (ShiftOper[1])?InBS[OPERAND_WIDTH-1]:1'b0}:InBS;
+	assign shift1 = (ShAmt[0]) ? (ShiftOper[0])?{(ShiftOper[1])?InBS[0]:1'b0, InBS[OPERAND_WIDTH-1:1]}:{InBS[OPERAND_WIDTH-2:0], (ShiftOper[1])?InBS[OPERAND_WIDTH-1]:1'b0}:InBS;
 	assign shift2 = (ShAmt[1]) ? 
 			(ShiftOper[0])?
-				{(ShiftOper[1])?{2{shift1[OPERAND_WIDTH-1]}}:2'b00, shift1[OPERAND_WIDTH-1:2]}:
+				{(ShiftOper[1])?shift1[1:0]:2'b00, shift1[OPERAND_WIDTH-1:2]}:
 				{shift1[OPERAND_WIDTH-3:0], (ShiftOper[1])?shift1[OPERAND_WIDTH-1:OPERAND_WIDTH-2]:2'b00}
 			:shift1;
 	assign shift4 = (ShAmt[2]) ? 
 			(ShiftOper[0])?
-				{(ShiftOper[1])?{4{shift2[OPERAND_WIDTH-1]}}:4'b0000, shift2[OPERAND_WIDTH-1:4]}:
+				{(ShiftOper[1])?shift2[3:0]:4'b0000, shift2[OPERAND_WIDTH-1:4]}:
 				{shift2[OPERAND_WIDTH-5:0], (ShiftOper[1])?shift2[OPERAND_WIDTH-1:OPERAND_WIDTH-4]:4'b0000}
 			:shift2;
 	assign shift8 = (ShAmt[3]) ? 
 			(ShiftOper[0])?
-				{(ShiftOper[1])?{8{shift4[OPERAND_WIDTH-1]}}:8'b000, shift4[OPERAND_WIDTH-1:8]}:
+				{(ShiftOper[1])?shift2[7:0]:8'b000, shift4[OPERAND_WIDTH-1:8]}:
 				{shift4[OPERAND_WIDTH-9:0], (ShiftOper[1])?shift4[OPERAND_WIDTH-1:OPERAND_WIDTH-8]:8'b000}
 			:shift4;
 			
