@@ -26,13 +26,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	pc
 
-} {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/execute.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/execute.v}
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module execute
-
-Top level modules:
-	execute
-
 } {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/proc_hier.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/proc_hier.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module proc_hier
@@ -68,13 +61,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	decoder3to8
 
-} {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/shifter.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/shifter.v}
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module shifter
-
-Top level modules:
-	shifter
-
 } {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/andAB.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/andAB.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module andAB
@@ -109,6 +95,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 
 Top level modules:
 	rf
+
+} {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/memory.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/memory.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module memory
+
+Top level modules:
+	memory
 
 } {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/cla16b.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/cla16b.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -159,12 +152,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	or2
 
-} {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/proc.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/proc.v}
+} {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/decode.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/decode.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module proc
+-- Compiling module decode
 
 Top level modules:
-	proc
+	decode
 
 } {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/overflow.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/overflow.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016

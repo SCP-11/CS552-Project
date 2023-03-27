@@ -1,11 +1,11 @@
 `default_nettype none
 module control (/*F*/	halt,
 				/*D*/	rf_mux, I_sel, rf_writeEn, I_op, 
-				/*EX*/	ALUsrc, ALU_op, PC_sel, DI_sel, rev_sel, func, invB, B_op, B,
+				/*EX*/	ALUsrc, ALU_op, PC_sel, DI_sel, rev_sel, func, invB, B_op, B, bypass_sel,
 				/*MEM*/	mem_writeEn, 
 				/*WB*/	memreg, diff_op, compare);
 				
-    output reg [1:0] rf_mux, memreg, diff_op, I_sel, mem_writeEn, B_op;
+    output reg [1:0] rf_mux, memreg, diff_op, I_sel, mem_writeEn, B_op, bypass_sel;
 	output reg rf_writeEn, PC_sel, DI_sel, compare, rev_sel, ALUsrc, B;
 	output reg [2:0] ALU_op;
 	output wire invB, halt;
@@ -16,7 +16,7 @@ module control (/*F*/	halt,
 	assign halt = (I_op == 5'b00000)? 1'b1: 1'b0;
 	always @* begin
 		rf_writeEn = 1'b0;
-		mem_writeEn = 2'b00;
+		mem_writeEn = 2'b0Z;
 		PC_sel = 1'b1;
 		I_sel = 2'b00;
 		ALU_op = 3'b100;
@@ -25,6 +25,7 @@ module control (/*F*/	halt,
 		rev_sel = 1'b0;
 		compare = 1'b0;
 		rf_mux = 2'b01;
+		bypass_sel = 2'b00;
 			
 		casex (I_op)
 		5'b00001 : begin /*NOP*/ 
@@ -32,10 +33,10 @@ module control (/*F*/	halt,
 			mem_writeEn = 2'b0z;  
 			end 
 		5'b0100? : begin /*ADDI, SUBI*/ 
-						/*D*/ 	rf_mux = 2'b01;	I_sel = 2'b0z; rf_writeEn = 1'b1; 
-						/*EX*/	ALU_op = {1'b1, I_op[1:0]};	ALUsrc = 1'b1;	PC_sel = 1'b1;
-						/*MEM*/	mem_writeEn = 2'b00; 
-						/*WB*/	memreg = 2'b01;
+						/*D*/ 	rf_mux = 2'b01;	I_sel = 2'b00; rf_writeEn = 1'b1; 
+						/*EX*/	ALU_op = {1'b1, I_op[1:0]};	ALUsrc = 1'b1;	PC_sel = 1'b1; bypass_sel = 2'b00;
+						/*MEM*/	mem_writeEn = 2'b0z; 
+						/*WB*/	memreg = 2'b11;
 			end 
 		5'b0101? : begin /*XORI, ANDNI*/ 
 			rf_writeEn = 1'b1; 
@@ -142,11 +143,10 @@ module control (/*F*/	halt,
 						/*WB*/	memreg = 2'b01; compare = 1'b0;
 					end 
 		5'b10010 : begin /*SLBI*/ 
-						/*D*/ 	rf_writeEn = 1'b0; 
-						/*EX*/	ALU_op = {1'b0, func}; B_op = I_op[1:0]; B = (I_op[4:2]==3'b001)? 1'b1: 1'b0; 
-								PC_sel = 1'b0; DI_sel = 1'b1;
-						/*MEM*/	mem_writeEn = 2'b0z; 
-						/*WB*/	compare = 1'b0; 
+						/*D*/ 	rf_writeEn = 1'b1; rf_mux = 2'b00; I_sel = 2'b11;
+						/*EX*/	ALU_op = {3'b000}; DI_sel = 1'b1; bypass_sel = 2'b11;
+						/*MEM*/ 
+						/*WB*/	memreg = 2'b11;
 					end
 					
 		5'b001?? : begin /*JD...*/ 
