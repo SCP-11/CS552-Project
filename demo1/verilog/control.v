@@ -6,15 +6,16 @@ module control (/*F*/	halt,
 				/*WB*/	memreg, diff_op, compare);
 				
     output reg [1:0] rf_mux, memreg, diff_op, I_sel, mem_writeEn, B_op, bypass_sel;
-	output reg rf_writeEn, PC_sel, DI_sel, compare, rev_sel, ALUsrc, B, invA;
+	output reg rf_writeEn, PC_sel, DI_sel, compare, rev_sel, ALUsrc, B, invA, halt;
 	output reg [2:0] ALU_op;
-	output wire invB, halt;
+	output wire invB;
     input wire [4:0] I_op;
 	input wire [1:0] func;
 
     assign invB = (I_op == 5'b01011)? 1'b1: ((I_op==5'b11011) & (func == 2'b11))? 1'b1: 1'b0; 
-	assign halt = (I_op == 5'b00000)? 1'b1: 1'b0;
+	//assign halt = (I_op == 5'b00000)? 1'b1: 1'b0;
 	always @* begin
+		/*F*/	halt = 1'b0;
 		rf_writeEn = 1'b0;
 		mem_writeEn = 2'b0Z;
 		PC_sel = 1'b1;
@@ -31,6 +32,12 @@ module control (/*F*/	halt,
 		B_op = 2'b00;
 		DI_sel = 1'b0;
 		casex (I_op)
+		5'b00000 : begin /*Halt*/ 
+						/*F*/	halt = 1'b0;
+								rf_writeEn = 1'b0; 
+								mem_writeEn = 2'b0z;  
+					end 
+			
 		5'b00001 : begin /*NOP*/ 
 			rf_writeEn = 1'b0; 
 			mem_writeEn = 2'b0z;  

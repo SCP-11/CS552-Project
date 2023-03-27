@@ -6,17 +6,17 @@
                      processor.
 */
 `default_nettype none
-module memory (mem_mem_out, writeData, aluResult, clk, rst, mem_writeEn);
+module memory (mem_mem_out, writeData, aluResult, clk, rst, mem_writeEn, halt);
 
    // TODO: Your code here
    input wire [15:0] writeData, aluResult;
 	input wire [1:0] mem_writeEn;
-   input wire clk, rst;
+   input wire clk, rst, halt;
    
    output wire [15:0] mem_mem_out;
-   wire memRead, memWrite, memReadorWrite, halt;
+   wire memRead, memWrite, memReadorWrite;
    
-   assign halt = ~mem_writeEn[1];
+   //assign halt = ~mem_writeEn[1];
    assign memRead = ~mem_writeEn[0];
    assign memWrite = mem_writeEn[0];
    assign memReadorWrite = mem_writeEn[0]|~mem_writeEn[0];
@@ -26,3 +26,4 @@ module memory (mem_mem_out, writeData, aluResult, clk, rst, mem_writeEn);
 						
 endmodule
 `default_nettype wire
+

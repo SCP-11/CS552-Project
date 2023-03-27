@@ -37,10 +37,10 @@ module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut,
 													ALU_out;
 													
 			
-   assign PC_sel = 	~((((B_op===2'b00) & (read1OutData === 16'h0000))|
-						((B_op===2'b01) & ~(read1OutData === 16'h0000))|
-						((B_op===2'b10) & (read1OutData[15] === 1'b1))|
-						((B_op===2'b11) & (read1OutData[15] === 1'b0))) & B);
+   assign PC_sel = 	~((((B_op==2'b00) & (read1OutData == 16'h0000))|
+						((B_op==2'b01) & ~(read1OutData == 16'h0000))|
+						((B_op==2'b10) & (read1OutData[15] == 1'b1))|
+						((B_op==2'b11) & (read1OutData[15] == 1'b0))) & B);
 
 	assign I_RsI_sel = ~B;
    mux2_1 I_RsI_mux [15:0](.out(JPB_mux_out), .inputA(I), .inputB(ALU_out), .sel(I_RsI_sel));
@@ -49,6 +49,6 @@ module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut,
    
    mux2_1 DI_mux [15:0](.out(add_mux_out), .inputA(PC_2_D), .inputB(pc_2_JPB), .sel(DI_sel));
    
-   mux2_1 PC_mux [15:0](.out(pcNext), .inputA(add_mux_out), .inputB(PC_2), .sel(PC_sel));
+   mux2_1 PC_mux [15:0](.out(pcNext), .inputA(16'h0002), .inputB(PC_2), .sel(PC_sel));
 endmodule
 `default_nettype wire

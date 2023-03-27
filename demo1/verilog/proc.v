@@ -60,7 +60,7 @@ module proc (/*AUTOARG*/
 				.rev_sel(rev_sel), .invB(invB), .invA(invA), .B_op(B_op), .B(B), .bypass_sel(bypass_sel));
 	
 	memory memory0(.mem_mem_out(mem_mem_out), .writeData(read2OutData), .aluResult(ALU_out), .clk(clk), .rst(rst), 
-				/*control*/.mem_writeEn(mem_writeEn));
+				/*control*/.mem_writeEn(mem_writeEn), .halt(halt));
 				
 	wb WB (.rf_write(writeInData), .mem_mem_out(mem_mem_out), .PC_2(PC_2), .I(I_mux_out), .ALU_out(ALU_out), .ALU_carry(ALU_cOut),
 				/*control*/ .memreg(memreg), .diff_op(diff_op), .compare(compare), .bypass(bypass));
