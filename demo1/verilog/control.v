@@ -1,12 +1,12 @@
 `default_nettype none
 module control (/*F*/	halt,
 				/*D*/	rf_mux, I_sel, rf_writeEn, I_op, 
-				/*EX*/	ALUsrc, ALU_op, PC_sel, DI_sel, rev_sel, func, invB, B_op, B, bypass_sel,
+				/*EX*/	ALUsrc, ALU_op, PC_sel, DI_sel, rev_sel, func, invB, invA, B_op, B, bypass_sel,
 				/*MEM*/	mem_writeEn, 
 				/*WB*/	memreg, diff_op, compare);
 				
     output reg [1:0] rf_mux, memreg, diff_op, I_sel, mem_writeEn, B_op, bypass_sel;
-	output reg rf_writeEn, PC_sel, DI_sel, compare, rev_sel, ALUsrc, B;
+	output reg rf_writeEn, PC_sel, DI_sel, compare, rev_sel, ALUsrc, B, invA;
 	output reg [2:0] ALU_op;
 	output wire invB, halt;
     input wire [4:0] I_op;
@@ -26,7 +26,10 @@ module control (/*F*/	halt,
 		compare = 1'b0;
 		rf_mux = 2'b01;
 		bypass_sel = 2'b00;
-			
+		invA = 1'b0;
+		B = 1'b0;
+		B_op = 2'b00;
+		DI_sel = 1'b0;
 		casex (I_op)
 		5'b00001 : begin /*NOP*/ 
 			rf_writeEn = 1'b0; 
@@ -48,6 +51,7 @@ module control (/*F*/	halt,
 			memreg = 2'b11;
 			rev_sel = 1'b0;
 			compare = 1'b0;
+			
 			
 			/*D*/ rf_mux = 2'b01;
 			end 
@@ -125,14 +129,14 @@ module control (/*F*/	halt,
 			/*D*/ rf_mux = 2'b01;
 			end 
 		5'b111?? : begin /*SEQ...*/ 
-						/*D*/ 	rf_mux = 2'b01; rf_writeEn = 1'b1; 
-						/*EX*/	ALU_op = {1'b0, func};
+						/*D*/ 	rf_mux = 2'b10; rf_writeEn = 1'b1; 
+						/*EX*/	ALU_op = {1'b0, func}; invA = 1'b1;
 						/*MEM*/	mem_writeEn = 2'b0z; PC_sel = 1'b1;
 						/*WB*/	compare = 1'b1; diff_op = I_op[1:0];
 					end
 		5'b011?? : begin /*BEQZ...*/ 
-						/*D*/ 	rf_writeEn = 1'b0; 
-						/*EX*/	B_op = I_op[1:0]; PC_sel = 1'b0; DI_sel = 1'b1;
+						/*D*/ 	rf_writeEn = 1'b0; I_sel = 2'b10;
+						/*EX*/	B_op = I_op[1:0]; B = 1'b1; DI_sel = 1'b1; 
 						/*MEM*/	mem_writeEn = 2'b0z; 
 						/*WB*/	compare = 1'b0; 
 					end
@@ -144,7 +148,7 @@ module control (/*F*/	halt,
 					end 
 		5'b10010 : begin /*SLBI*/ 
 						/*D*/ 	rf_writeEn = 1'b1; rf_mux = 2'b00; I_sel = 2'b11;
-						/*EX*/	ALU_op = {3'b000}; DI_sel = 1'b1; bypass_sel = 2'b11;
+						/*EX*/	ALU_op = {3'b000}; bypass_sel = 2'b11; ALUsrc = 1'b1;
 						/*MEM*/ 
 						/*WB*/	memreg = 2'b11;
 					end

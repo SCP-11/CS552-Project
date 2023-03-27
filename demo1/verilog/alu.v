@@ -35,11 +35,12 @@ module alu (InA, InB, Cin, Oper, invA, invB, sign, Out, Zero, Ofl, cOut);
 	inverter inverterA (.In(InA), .Out(InAIn));
 	inverter inverterB (.In(InB), .Out(InBIn));
 	assign InAf = (invA)? InAIn: InA;
+	//assign Cin = (invA)? 1'b1: 1'b0;
 	assign InBf = (invB)? InBIn: InB;
 	shifter shi1 (.InBS(InAf), .ShAmt(InBf[3:0]), .ShiftOper(Oper[1:0]), .OutBS(shiterOut));
 
 	
-	cla16b cla16b0(.sum(addAB), .cOut(cOut), .inA(InAf), .inB(InBf), .cIn(Cin));
+	cla16b cla16b0(.sum(addAB), .cOut(cOut), .inA(InAf), .inB(InBf), .cIn(invA));
 	andAB a(.A(InAf), .B(InBf), .Out(andAB));
 	orAB o(.A(InAf), .B(InBf), .Out(orAB));
 	xorAB xo(.A(InAf), .B(InBf), .Out(xorAB));
