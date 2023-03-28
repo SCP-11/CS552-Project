@@ -126,8 +126,8 @@ module control (/*F*/	halt,
 			end 
 		5'b111?? : begin /*SEQ...*/ 
 						/*D*/ 	rf_mux = 2'b10; rf_writeEn = 1'b1; 
-						/*EX*/	ALU_op = {1'b0, func}; invA = 1'b1;
-						/*MEM*/	mem_writeEn = 2'b0z; PC_sel = 1'b1;
+						/*EX*/	ALU_op = 3'b100; invA = ~(I_op[1] & I_op[0]); 
+						/*MEM*/	
 						/*WB*/	compare = 1'b1; diff_op = I_op[1:0];
 					end
 		5'b011?? : begin /*BEQZ...*/ 

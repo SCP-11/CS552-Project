@@ -25,7 +25,8 @@ module fetch (pcNext, clk, rst, PC_2_D, PC_2, I_mem_out, halt/* TODO: Add approp
    
    memory2c I_mem(.data_out(I_mem_out), .data_in(), .addr(pcCurrent), .enable(1'b1), .wr(1'b0), .createdump(), .clk(clk), .rst(rst));
    assign I_sl1 = {I_mem_out[10:0], 1'b0};
-   assign PC_2_D = {PC_2[15:12], I_sl1};
+   cla16b pc2D_adder (.sum(PC_2_D), .cOut(cOut), .inA(PC_2), .inB({{4{I_mem_out[10]}}, I_mem_out[10:0], 1'b0}), .cIn(1'b0));
+   //assign PC_2_D = {PC_2[15:12], I_sl1};
    
    
 endmodule

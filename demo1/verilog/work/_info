@@ -157,13 +157,13 @@ R8
 R4
 R5
 vcontrol
-Z14 !s110 1679967804
+Z14 !s110 1679973363
 !i10b 1
-!s100 Qb9ZkLc@@lAZ[YLdA_3T31
-IH7ZU>ca6hQn;IQ>FZlSJE1
+!s100 IbkHlz?jKi6WAQ:LFLm3<2
+Ifa_]b2d?al8^A=cOSLJY<2
 R0
 R1
-w1679967798
+w1679972147
 8C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/control.v
 FC:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/control.v
 L0 2
@@ -171,7 +171,7 @@ R3
 r1
 !s85 0
 31
-Z15 !s108 1679967804.000000
+Z15 !s108 1679973363.000000
 !s107 C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/control.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/control.v|
 !i113 1
@@ -262,13 +262,13 @@ r1
 R4
 R5
 vfetch
-!s110 1679865820
+!s110 1679975183
 !i10b 1
-!s100 g1SlAT:DbUh[J>k1zQ65M0
-IY?]ISWdY=CZg2X7dT[heE3
+!s100 :jJf<eK0JGc518Ib?NdKG0
+IA=RH=6XmdUJl7]TVLYLhb0
 R0
 R1
-w1679865813
+w1679975177
 8C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/fetch.v
 FC:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/fetch.v
 L0 8
@@ -276,7 +276,7 @@ R3
 r1
 !s85 0
 31
-!s108 1679865820.000000
+!s108 1679975183.000000
 !s107 C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/fetch.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/fetch.v|
 !i113 1
@@ -684,7 +684,7 @@ R12
 R4
 R5
 vshifter
-R14
+!s110 1679967804
 !i10b 1
 !s100 Pz1?OG29YQC3I=fLO94]N2
 I5L@3UO3C:kb2Tg=2blFUo2
@@ -698,20 +698,20 @@ R3
 r1
 !s85 0
 31
-R15
+!s108 1679967804.000000
 !s107 C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/shifter.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/shifter.v|
 !i113 1
 R4
 R5
 vwb
-!s110 1679906740
+R14
 !i10b 1
-!s100 JMOGA=B6ndV:bIK;GA3fQ2
-Ieb<Y9_KW1ljSKZINN2QFn3
+!s100 8[Rl=Ozf?UD>^PSRLmRA?1
+I145AKD1Wcjj6koOUcnODT1
 R0
 R1
-w1679906670
+w1679973354
 8C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/wb.v
 FC:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/wb.v
 L0 8
@@ -719,7 +719,7 @@ R3
 r1
 !s85 0
 31
-!s108 1679906740.000000
+R15
 !s107 C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/wb.v|
 !s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo1/verilog/wb.v|
 !i113 1
