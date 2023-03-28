@@ -35,12 +35,12 @@ module shifter (InBS, ShAmt, ShiftOper, OutBS);
 			:shift1;
 	assign shift4 = (ShAmt[2]) ? 
 			(ShiftOper[0])?
-				{(ShiftOper[1])?shift2[3:0]:4'b0000, shift2[OPERAND_WIDTH-1:4]}:
+				{(ShiftOper[1])?shift2[3:0]:4'h0, shift2[OPERAND_WIDTH-1:4]}:
 				{shift2[OPERAND_WIDTH-5:0], (ShiftOper[1])?shift2[OPERAND_WIDTH-1:OPERAND_WIDTH-4]:4'b0000}
 			:shift2;
 	assign shift8 = (ShAmt[3]) ? 
 			(ShiftOper[0])?
-				{(ShiftOper[1])?shift2[7:0]:8'b000, shift4[OPERAND_WIDTH-1:8]}:
+				{(ShiftOper[1])?shift4[7:0]:8'h00, shift4[OPERAND_WIDTH-1:8]}:
 				{shift4[OPERAND_WIDTH-9:0], (ShiftOper[1])?shift4[OPERAND_WIDTH-1:OPERAND_WIDTH-8]:8'b000}
 			:shift4;
 			

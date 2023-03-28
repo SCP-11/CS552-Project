@@ -63,15 +63,12 @@ module control (/*F*/	halt,
 			
 			/*D*/ rf_mux = 2'b01;
 			end 
-		5'b101?? : begin /*ROLI...*/ 
+		5'b101?? : begin /*ROLI, RORI...*/ 
 			rf_writeEn = 1'b1; 
-			mem_writeEn = 2'b0z; 
 			PC_sel = 1'b1;		
-			ALU_op = {1'b0, I_op[1:0]}; //Rotate
+			ALU_op = {1'b0, ~I_op[0], I_op[1]}; //Rotate
 			ALUsrc = 1'b1;
 			memreg = 2'b11;
-			rev_sel = 1'b0;
-			compare = 1'b0;
 			/*D*/ rf_mux = 2'b01;
 			end 
 		5'b10000 : begin /*ST*/ 
@@ -102,39 +99,30 @@ module control (/*F*/	halt,
 			ALU_op = 3'b100; //Add
 			ALUsrc = 1'b1;
 			memreg = 2'b11;
-			rev_sel = 1'b0;
 			compare = 1'b0;
 			
 			/*D*/ rf_mux = 2'b00;
 			end 
 		5'b11001 : begin /*BTR*/ 
 			rf_writeEn = 1'b1; 
-			mem_writeEn = 2'b0z; 
-			PC_sel = 1'b1;
-			memreg = 2'b11;
-			rev_sel = 1'b1;
-			compare = 1'b0;
-			/*D*/ rf_mux = 2'b01;
+			/*EX*/                                                                      bypass_sel = 2'b01;
+			/*D*/ rf_mux = 2'b10;
+			/*MEM*/memreg = 2'b11;
 			end 
-		5'b11011 : begin /*ADD...*/ 
+		5'b11011 : begin /*ADD, SUB...*/ 
 			rf_writeEn = 1'b1; 
 			mem_writeEn = 2'b0z; 
 			PC_sel = 1'b1;
-			ALU_op = {1'b1, func};
-			memreg = 2'b11;
-			rev_sel = 1'b0;
-			compare = 1'b0;
+			/*EX*/ALU_op = {1'b1, func}; invA = func[0];
+			/*MEM*/memreg = 2'b11;
 			/*D*/ rf_mux = 2'b10;
 			end 
 		5'b11010 : begin /*SLL...*/ 
-			rf_writeEn = 1'b1; 
-			mem_writeEn = 2'b0z; 
-			PC_sel = 1'b1;
-			ALU_op = {1'b0, func};
-			memreg = 2'b11;
-			rev_sel = 1'b0;
-			compare = 1'b0;
-			/*D*/ rf_mux = 2'b01;
+						rf_writeEn = 1'b1; 
+						PC_sel = 1'b1;
+						ALU_op = {1'b0, func};
+						/*D*/ rf_mux = 2'b10;
+						/*MEM*/ memreg = 2'b11;
 			end 
 		5'b111?? : begin /*SEQ...*/ 
 						/*D*/ 	rf_mux = 2'b10; rf_writeEn = 1'b1; 
