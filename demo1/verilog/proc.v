@@ -34,7 +34,7 @@ module proc (/*AUTOARG*/
 	wire [1:0] mem_writeEn;
 	/*WB*/
 	wire [1:0] memreg, diff_op;
-	wire compare, halt;
+	wire compare, halt, B_take;
    
    
 	wire [15:0] pcNext, PC_2_D, PC_2, I_mem_out, read1OutData, read2OutData, writeInData, ALU_out, I_mux_out, bypass,
@@ -45,7 +45,7 @@ module proc (/*AUTOARG*/
 	control ctr (/*F*/	.halt(halt),
 				/*D*/	.rf_mux(rf_mux), .I_sel(I_sel), .rf_writeEn(rf_writeEn), .I_op(I_mem_out[15:11]),
 				/*EX*/	.ALUsrc(ALUsrc), .ALU_op(ALU_op), .PC_sel(PC_sel), .DI_sel(DI_sel), 
-						.rev_sel(rev_sel), .func(I_mem_out[1:0]), .invB(invB), .invA(invA), .B_op(B_op), .B(B), .bypass_sel(bypass_sel),
+						.rev_sel(rev_sel), .func(I_mem_out[1:0]), .invB(invB), .invA(invA), .B_op(B_op), .B(B), .bypass_sel(bypass_sel), .B_take(B_take),
 				/*MEM*/	.mem_writeEn(mem_writeEn),
 				/*WB*/	.memreg(memreg), .diff_op(diff_op), .compare(compare));
 				
@@ -57,7 +57,7 @@ module proc (/*AUTOARG*/
 				.read1OutData(read1OutData), .read2OutData(read2OutData), .I(I_mux_out), .PC_2(PC_2), .PC_2_D(PC_2_D),
 				/*control*/
 				.ALU_Oper(ALU_op), .ALUsrc(ALUsrc), .PC_sel(PC_sel), .DI_sel(DI_sel),
-				.rev_sel(rev_sel), .invB(invB), .invA(invA), .B_op(B_op), .B(B), .bypass_sel(bypass_sel));
+				.rev_sel(rev_sel), .invB(invB), .invA(invA), .B_op(B_op), .B(B), .bypass_sel(bypass_sel), .B_take(B_take));
 	
 	memory memory0(.mem_mem_out(mem_mem_out), .writeData(read2OutData), .aluResult(ALU_out), .clk(clk), .rst(rst), 
 				/*control*/.mem_writeEn(mem_writeEn), .halt(halt));

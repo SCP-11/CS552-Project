@@ -1,7 +1,7 @@
 `default_nettype none
 module control (/*F*/	halt,
 				/*D*/	rf_mux, I_sel, rf_writeEn, I_op, 
-				/*EX*/	ALUsrc, ALU_op, PC_sel, DI_sel, rev_sel, func, invB, invA, B_op, B, bypass_sel,
+				/*EX*/	ALUsrc, ALU_op, PC_sel, DI_sel, rev_sel, func, invB, invA, B_op, B, bypass_sel, B_take,
 				/*MEM*/	mem_writeEn, 
 				/*WB*/	memreg, diff_op, compare);
 				
@@ -11,6 +11,7 @@ module control (/*F*/	halt,
 	output wire invB;
     input wire [4:0] I_op;
 	input wire [1:0] func;
+	input wire B_take;
 
     assign invB = (I_op == 5'b01011)? 1'b1: ((I_op==5'b11011) & (func == 2'b11))? 1'b1: 1'b0; 
 	//assign halt = (I_op == 5'b00000)? 1'b1: 1'b0;
@@ -33,7 +34,7 @@ module control (/*F*/	halt,
 		DI_sel = 1'b0;
 		casex (I_op)
 		5'b00000 : begin /*Halt*/ 
-						/*F*/	halt = 1'b0;
+						/*F*/	halt = 1'b1;
 								rf_writeEn = 1'b0; 
 								mem_writeEn = 2'b0z;  
 					end 
@@ -143,7 +144,7 @@ module control (/*F*/	halt,
 					end
 		5'b011?? : begin /*BEQZ...*/ 
 						/*D*/ 	rf_writeEn = 1'b0; I_sel = 2'b10;
-						/*EX*/	B_op = I_op[1:0]; B = 1'b1; DI_sel = 1'b1; 
+						/*EX*/	B_op = I_op[1:0]; B = 1'b1; DI_sel = 1'b1; PC_sel = ~B_take; 
 						/*MEM*/	mem_writeEn = 2'b0z; 
 						/*WB*/	compare = 1'b0; 
 					end

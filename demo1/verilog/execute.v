@@ -5,7 +5,7 @@
    Description     : This is the overall module for the execute stage of the processor.
 */
 `default_nettype none
-module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut, 
+module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut, B_take,
 				/*IN*/	read1OutData, read2OutData, I, PC_2, PC_2_D, invA, 				
 				/*control*/ ALU_Oper, ALUsrc, PC_sel, DI_sel, rev_sel, invB, B_op, B, bypass_sel);
 
@@ -17,7 +17,7 @@ module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut,
    input wire PC_sel, DI_sel, rev_sel, invB, invA;
    
    output wire [15:0] ALU_out, pcNext, bypass;
-   output wire ALU_cOut;
+   output wire ALU_cOut, B_take;
    
    wire [15:0] ALU_mux_out, JPB_mux_out, pc_2_JPB, add_mux_out, rev_out, IORShift;
    wire ALU_Of1, cOut, zero, I_RsI_sel;
@@ -37,7 +37,7 @@ module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut,
 													ALU_out;
 													
 			
-   assign PC_sel = 	~((((B_op==2'b00) & (read1OutData == 16'h0000))|
+   assign B_take = 	((((B_op==2'b00) & (read1OutData == 16'h0000))|
 						((B_op==2'b01) & ~(read1OutData == 16'h0000))|
 						((B_op==2'b10) & (read1OutData[15] == 1'b1))|
 						((B_op==2'b11) & (read1OutData[15] == 1'b0))) & B);
@@ -45,10 +45,11 @@ module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut,
 	assign I_RsI_sel = ~B;
    mux2_1 I_RsI_mux [15:0](.out(JPB_mux_out), .inputA(I), .inputB(ALU_out), .sel(I_RsI_sel));
    
-   cla16b add_pc_2_JB (.sum(pc_2_JPB), .cOut(cOut), .inA(PC_2), .inB({JPB_mux_out[14:0], 1'b0}), .cIn(1'b0));
+   cla16b add_pc_2_JB (.sum(pc_2_JPB), .cOut(cOut), .inA(PC_2), .inB({JPB_mux_out}), .cIn(1'b0));
    
    mux2_1 DI_mux [15:0](.out(add_mux_out), .inputA(PC_2_D), .inputB(pc_2_JPB), .sel(DI_sel));
    
-   mux2_1 PC_mux [15:0](.out(pcNext), .inputA(16'h0002), .inputB(PC_2), .sel(PC_sel));
+   //mux2_1 PC_mux [15:0](.out(pcNext), .inputA(16'h0002), .inputB(PC_2), .sel(PC_sel));
+   assign pcNext = (PC_sel)? PC_2: add_mux_out;
 endmodule
 `default_nettype wire
