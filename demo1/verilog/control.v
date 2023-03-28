@@ -105,7 +105,7 @@ module control (/*F*/	halt,
 			end 
 		5'b11001 : begin /*BTR*/ 
 			rf_writeEn = 1'b1; 
-			/*EX*/                                                                      bypass_sel = 2'b01;
+			/*EX*/bypass_sel = 2'b01;
 			/*D*/ rf_mux = 2'b10;
 			/*MEM*/memreg = 2'b11;
 			end 
@@ -113,7 +113,7 @@ module control (/*F*/	halt,
 			rf_writeEn = 1'b1; 
 			mem_writeEn = 2'b0z; 
 			PC_sel = 1'b1;
-			/*EX*/ALU_op = {1'b1, func}; invA = func[0];
+			/*EX*/ALU_op = {1'b1, func}; invA = func[0] & ~func[1];
 			/*MEM*/memreg = 2'b11;
 			/*D*/ rf_mux = 2'b10;
 			end 
