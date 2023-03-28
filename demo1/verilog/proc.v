@@ -40,7 +40,7 @@ module proc (/*AUTOARG*/
 	wire [15:0] pcNext, PC_2_D, PC_2, I_mem_out, read1OutData, read2OutData, writeInData, ALU_out, I_mux_out, bypass,
 				/*MEM*/ mem_mem_out;
 	wire [1:0] mux_sel, B_op, bypass_sel;
-	wire writeEn, ALU_cOut, invB, B, invA;
+	wire writeEn, ALU_cOut, invB, B, invA, ALU_Of1;
 	fetch fetch0(.pcNext(pcNext), .clk(clk), .rst(rst), .PC_2_D(PC_2_D), .PC_2(PC_2), .I_mem_out(I_mem_out), .halt(halt));
 	control ctr (/*F*/	.halt(halt),
 				/*D*/	.rf_mux(rf_mux), .I_sel(I_sel), .rf_writeEn(rf_writeEn), .I_op(I_mem_out[15:11]),
@@ -53,7 +53,7 @@ module proc (/*AUTOARG*/
 				/*control*/
 				.rf_mux(rf_mux), .I_sel(I_sel), .rf_writeEn(rf_writeEn));
 				
-	execute EX(	.pcNext(pcNext), .ALU_out(ALU_out), .bypass(bypass), .ALU_cOut(ALU_cOut),
+	execute EX(	.pcNext(pcNext), .ALU_out(ALU_out), .bypass(bypass), .ALU_cOut(ALU_cOut), .ALU_Of1(ALU_Of1),
 				.read1OutData(read1OutData), .read2OutData(read2OutData), .I(I_mux_out), .PC_2(PC_2), .PC_2_D(PC_2_D),
 				/*control*/
 				.ALU_Oper(ALU_op), .ALUsrc(ALUsrc), .PC_sel(PC_sel), .DI_sel(DI_sel),
@@ -62,7 +62,7 @@ module proc (/*AUTOARG*/
 	memory memory0(.mem_mem_out(mem_mem_out), .writeData(read2OutData), .aluResult(ALU_out), .clk(clk), .rst(rst), 
 				/*control*/.mem_writeEn(mem_writeEn), .halt(halt));
 				
-	wb WB (.rf_write(writeInData), .mem_mem_out(mem_mem_out), .PC_2(PC_2), .I(I_mux_out), .ALU_out(ALU_out), .ALU_carry(ALU_cOut),
+	wb WB (.rf_write(writeInData), .mem_mem_out(mem_mem_out), .PC_2(PC_2), .I(I_mux_out), .ALU_out(ALU_out), .ALU_carry(ALU_cOut), .ALU_Of1(ALU_Of1), 
 				/*control*/ .memreg(memreg), .diff_op(diff_op), .compare(compare), .bypass(bypass));
 endmodule // proc
 `default_nettype wire

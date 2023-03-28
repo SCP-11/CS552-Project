@@ -5,7 +5,7 @@
    Description     : This is the overall module for the execute stage of the processor.
 */
 `default_nettype none
-module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut, B_take,
+module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut, B_take, ALU_Of1,
 				/*IN*/	read1OutData, read2OutData, I, PC_2, PC_2_D, invA, 				
 				/*control*/ ALU_Oper, ALUsrc, PC_sel, DI_sel, rev_sel, invB, B_op, B, bypass_sel);
 
@@ -17,10 +17,10 @@ module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut, B_take,
    input wire PC_sel, DI_sel, rev_sel, invB, invA;
    
    output wire [15:0] ALU_out, pcNext, bypass;
-   output wire ALU_cOut, B_take;
+   output wire ALU_cOut, B_take, ALU_Of1;
    
    wire [15:0] ALU_mux_out, JPB_mux_out, pc_2_JPB, add_mux_out, rev_out, IORShift;
-   wire ALU_Of1, cOut, zero, PC2_I_sel;
+   wire cOut, zero, PC2_I_sel;
 	
 
    assign ALU_mux_out = (ALUsrc)? ((bypass_sel[1])? 16'h0008: I): read2OutData;
