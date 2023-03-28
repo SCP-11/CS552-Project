@@ -151,9 +151,8 @@ module control (/*F*/	halt,
 					
 		5'b001?? : begin /*JD...*/ 
 						/*D*/ 	rf_writeEn = I_op[1]; 
-						/*EX*/	ALU_op = 3'b100; PC_sel = 1'b0; DI_sel = I_op[0];
-						/*MEM*/	mem_writeEn = 2'b0z; 
-						/*WB*/	memreg = 2'b10; compare = 1'b0; 
+						/*EX*/	ALU_op = 3'b100; PC_sel = 1'b0; DI_sel = I_op[0]; ALUsrc = 1'b1; I_sel = 2'b10;
+						/*WB*/	memreg = 2'b10;
 					end
 	endcase
 	end 

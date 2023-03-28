@@ -20,7 +20,7 @@ module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut, B_take,
    output wire ALU_cOut, B_take;
    
    wire [15:0] ALU_mux_out, JPB_mux_out, pc_2_JPB, add_mux_out, rev_out, IORShift;
-   wire ALU_Of1, cOut, zero, I_RsI_sel;
+   wire ALU_Of1, cOut, zero, PC2_I_sel;
 	
 
    assign ALU_mux_out = (ALUsrc)? ((bypass_sel[1])? 16'h0008: I): read2OutData;
@@ -42,12 +42,14 @@ module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut, B_take,
 						((B_op==2'b10) & (read1OutData[15] == 1'b1))|
 						((B_op==2'b11) & (read1OutData[15] == 1'b0))) & B);
 
-	assign I_RsI_sel = ~B;
-   mux2_1 I_RsI_mux [15:0](.out(JPB_mux_out), .inputA(I), .inputB(ALU_out), .sel(I_RsI_sel));
+   cla16b add_pc_2_JB (.sum(pc_2_JPB), .cOut(cOut), .inA(PC_2), .inB(I), .cIn(1'b0));
+
+	assign PC2_I_sel = ~B;
+   mux2_1 PC2_I_mux [15:0](.out(JPB_mux_out), .inputA(pc_2_JPB), .inputB(ALU_out), .sel(PC2_I_sel));
    
-   cla16b add_pc_2_JB (.sum(pc_2_JPB), .cOut(cOut), .inA(PC_2), .inB({JPB_mux_out}), .cIn(1'b0));
+   //cla16b add_pc_2_JB (.sum(pc_2_JPB), .cOut(cOut), .inA(PC_2), .inB({JPB_mux_out}), .cIn(1'b0));
    
-   mux2_1 DI_mux [15:0](.out(add_mux_out), .inputA(PC_2_D), .inputB(pc_2_JPB), .sel(DI_sel));
+   mux2_1 DI_mux [15:0](.out(add_mux_out), .inputA(PC_2_D), .inputB(JPB_mux_out), .sel(DI_sel));
    
    //mux2_1 PC_mux [15:0](.out(pcNext), .inputA(16'h0002), .inputB(PC_2), .sel(PC_sel));
    assign pcNext = (PC_sel)? PC_2: add_mux_out;
