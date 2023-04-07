@@ -17,8 +17,8 @@ module memory (mem_mem_out, writeData, aluResult, clk, rst, mem_writeEn, halt);
    wire memRead, memWrite, memReadorWrite;
    
    //assign halt = ~mem_writeEn[1];
-   assign memRead = ~mem_writeEn[0];
-   assign memWrite = mem_writeEn[0];
+   assign memRead = ~mem_writeEn[0] & halt;
+   assign memWrite = mem_writeEn[0] & halt;
    assign memReadorWrite = mem_writeEn[0]|~mem_writeEn[0];
    
    memory2c mem_mem(.data_out(mem_mem_out), .data_in(writeData), .addr(aluResult), .enable(mem_writeEn[1]),

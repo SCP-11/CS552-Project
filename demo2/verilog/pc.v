@@ -11,7 +11,7 @@ module pc(pcNext, pcCurrent, rst, clk, en);
 	wire [15:0] pcD;
 	
 	assign pcD = (en)? pcNext: pcCurrent;
-	dff df1 [15:0] (.q(pcCurrent), .d(pcNext), .clk(clk), .rst(rst));
+	dff df1 [15:0] (.q(pcCurrent), .d(pcD), .clk(clk), .rst(rst));
 	
 	
 	

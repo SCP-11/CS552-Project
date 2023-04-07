@@ -5,21 +5,23 @@
    Description     : This is the overall module for the execute stage of the processor.
 */
 `default_nettype none
-module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut, B_take, ALU_Of1,
-				/*IN*/	read1OutData, read2OutData, I, PC_2, PC_2_D, invA, 				
-				/*control*/ ALU_Oper, ALUsrc, PC_sel, DI_sel, rev_sel, invB, B_op, B, bypass_sel);
+module execute (
+	/*OUT*/ 	JPB_mux_out, ALU_out, bypass, ALU_cOut, ALU_Of1,
+	/*IN*/		read1OutData, read2OutData, I, PC_2, /*PC_2_D*/, 		
+	/*control*/ ALU_Oper, ALUsrc, /*PC_sel, DI_sel, */
+				rev_sel, invA, invB, B_op, B, bypass_sel, B_take);
 
    // TODO: Your code here
-   input wire [15:0] read1OutData, read2OutData, I, PC_2, PC_2_D;
+   input wire [15:0] read1OutData, read2OutData, I, PC_2/*, PC_2_D*/;
    input wire [2:0] ALU_Oper;
    input wire [1:0] B_op, bypass_sel;
    input wire ALUsrc, B;
-   input wire PC_sel, DI_sel, rev_sel, invB, invA;
+   input wire /*PC_sel, *//*DI_sel, */rev_sel, invB, invA;
    
-   output wire [15:0] ALU_out, pcNext, bypass;
+   output wire [15:0] ALU_out, JPB_mux_out, bypass;
    output wire ALU_cOut, B_take, ALU_Of1;
    
-   wire [15:0] ALU_mux_out, JPB_mux_out, pc_2_JPB, add_mux_out, rev_out, IORShift;
+   wire [15:0] ALU_mux_out,	pc_2_JPB, rev_out, IORShift;
    wire cOut, zero, PC2_I_sel;
 	
 
@@ -49,9 +51,9 @@ module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut, B_take, ALU_Of1,
    
    //cla16b add_pc_2_JB (.sum(pc_2_JPB), .cOut(cOut), .inA(PC_2), .inB({JPB_mux_out}), .cIn(1'b0));
    
-   mux2_1 DI_mux [15:0](.out(add_mux_out), .inputA(PC_2_D), .inputB(JPB_mux_out), .sel(DI_sel));
+   //mux2_1 DI_mux [15:0](.out(add_mux_out), .inputA(PC_2_D), .inputB(JPB_mux_out), .sel(DI_sel));
    
    //mux2_1 PC_mux [15:0](.out(pcNext), .inputA(16'h0002), .inputB(PC_2), .sel(PC_sel));
-   assign pcNext = (PC_sel)? PC_2: add_mux_out;
+   
 endmodule
 `default_nettype wire

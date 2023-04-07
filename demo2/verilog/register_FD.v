@@ -9,17 +9,17 @@
    RESULT IN ZERO FOR THIS PROBLEM.
 */
 `default_nettype none
-module register_FD (/*D*/	I_mem_out_q,
-							I_mem_out,
-					/*EX*/	PC_2_q,	PC_2_D_q,	pcNext_q,
-							PC_2,	PC_2_D,	pcNext,
+module register_FD (/*D*/	I_mem_out_q, 	I_mem_out,
+					/*EX*/	PC_2_q,			PC_2,
+							PC_2_D_q,		PC_2_D,
+							
 							clk, rst);
 
     output wire [15:0] 	/*D*/	I_mem_out_q,
-						/*EX*/	PC_2_q,	PC_2_D_q,	pcNext_q;
+						/*EX*/	PC_2_q,	PC_2_D_q;
 						
     input wire [15:0] 	/*D*/	I_mem_out,
-						/*EX*/	PC_2,	PC_2_D,	pcNext;
+						/*EX*/	PC_2,	PC_2_D;
     input wire     clk;
     input wire     rst;
 
@@ -32,7 +32,6 @@ module register_FD (/*D*/	I_mem_out_q,
 	/*EX*/
 	dff PC_2_dffs 		[0:15](.q(PC_2_q), .d(PC_2), .clk(clk), .rst(rst));
 	dff PC_2_D_dffs 	[0:15](.q(PC_2_D_q), .d(PC_2_D), .clk(clk), .rst(rst));
-	dff pcNext_dffs 	[0:15](.q(pcNext_q), .d(pcNext), .clk(clk), .rst(rst));
 	
 endmodule
 `default_nettype wire
