@@ -33,8 +33,10 @@ module register_EXMEM (
 	
 	
 	/*MEM*/	
-	output wire	halt_q, mem_writeEn_q,	ALU_cOut_q;	
-	input wire 	halt,	mem_writeEn,	ALU_cOut;
+	output wire	[1:0] 	mem_writeEn_q;
+	input wire	[1:0]	mem_writeEn;
+	output wire	halt_q, ALU_cOut_q;	
+	input wire 	halt,	ALU_cOut;
 	
     input wire     clk;
     input wire     rst;
@@ -50,7 +52,7 @@ module register_EXMEM (
 	dff pcNext_dffs 	[0:15]	(.q(pcNext_q), .d(pcNext), .clk(clk), .rst(rst));
 	dff r2d_dffs 		[0:15]	(.q(read2OutData_q), .d(read2OutData), .clk(clk), .rst(rst));
 	dff halt_dffs 				(.q(halt_q), .d(halt), .clk(clk), .rst(rst));
-	dff mem_writeEn_dffs		(.q(mem_writeEn_q), .d(mem_writeEn), .clk(clk), .rst(rst));
+	dff mem_writeEn_dffs[0:1]	(.q(mem_writeEn_q), .d(mem_writeEn), .clk(clk), .rst(rst));
 	dff ALU_out_dffs 	[0:15]	(.q(ALU_out_q), .d(ALU_out), .clk(clk), .rst(rst));
 	
 	/*WB*/

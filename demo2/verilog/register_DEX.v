@@ -29,8 +29,10 @@ module register_DEX (
 						read2OutData,	I_mux_out;
 	
 	/*MEM*/	
-	output wire	halt_q, mem_writeEn_q;	
-	input wire 	halt,	mem_writeEn;	
+	output wire	[1:0] 	mem_writeEn_q;
+	input wire	[1:0]	mem_writeEn;
+	output wire	halt_q;	
+	input wire 	halt;	
 
     input wire     clk;
     input wire     rst;
@@ -46,7 +48,7 @@ module register_DEX (
 	dff r2d_dffs 		[0:15]	(.q(read2OutData_q), .d(read2OutData), .clk(clk), .rst(rst));
 	dff I_mux_out_dffs 	[0:15]	(.q(I_mux_out_q), .d(I_mux_out), .clk(clk), .rst(rst));
 	dff halt_dffs 				(.q(halt_q), .d(halt), .clk(clk), .rst(rst));
-	dff mem_writeEn_dffs		(.q(mem_writeEn_q), .d(mem_writeEn), .clk(clk), .rst(rst));
+	dff mem_writeEn_dffs[0:1]	(.q(mem_writeEn_q), .d(mem_writeEn), .clk(clk), .rst(rst));
 	
 endmodule
 `default_nettype wire

@@ -34,7 +34,7 @@ module register_MW (
 	output wire [15:0] bypass_q;	input wire [15:0] bypass;
 	
 	/*MEM*/	
-	output wire	mem_mem_out_q;		input wire 	mem_mem_out;
+	output wire	[15:0]	mem_mem_out_q;	input wire	[15:0]	mem_mem_out;
 	
     input wire     clk;
     input wire     rst;

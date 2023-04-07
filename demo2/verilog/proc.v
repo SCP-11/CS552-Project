@@ -31,7 +31,7 @@ module proc (/*AUTOARG*/
 				;
    	/*D*/	
 	wire [15:0] read1OutData_q, read2OutData_q, writeInData_q, I_mux_out_q,
-				read1OutData, read2OutData, writeInData, I_mux_out, mem_writeEn
+				read1OutData, read2OutData, writeInData, I_mux_out
 				;
 	wire [1:0] rf_sel, I_sel, B_op, bypass_sel;
 	wire rf_writeEn, invB, invA, B, halt_q, halt;
@@ -41,7 +41,7 @@ module proc (/*AUTOARG*/
 	wire [2:0] ALU_op;
 	/*MEM*/
 	wire [15:0] mem_mem_out_q, mem_mem_out;
-	wire [1:0] mem_writeEn_q;
+	wire [1:0] mem_writeEn_q, mem_writeEn;
 	/*WB*/
 	wire [1:0] memreg, diff_op;
 	wire compare_q, compare, B_take;
