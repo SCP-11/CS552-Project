@@ -1,12 +1,13 @@
 `default_nettype none
 module control (/*F*/	halt,
+				/*Ctr*/	J_D,
 				/*D*/	rf_sel, I_sel, rf_writeEn, I_op, 
 				/*EX*/	ALUsrc, ALU_op, PC_sel, DI_sel, rev_sel, func, invB, invA, B_op, B, bypass_sel, B_take,
 				/*MEM*/	mem_writeEn, 
 				/*WB*/	memreg, diff_op, compare);
 				
     output reg [1:0] rf_sel, memreg, diff_op, I_sel, mem_writeEn, B_op, bypass_sel;
-	output reg rf_writeEn, PC_sel, DI_sel, compare, rev_sel, ALUsrc, B, invA, halt;
+	output reg J_D,	rf_writeEn, PC_sel, DI_sel, compare, rev_sel, ALUsrc, B, invA, halt;
 	output reg [2:0] ALU_op;
 	output wire invB;
     input wire [4:0] I_op;
@@ -18,6 +19,7 @@ module control (/*F*/	halt,
 	always @* begin
 		/*F*/	
 		halt = 1'b0;
+		J_D = 1'b0;
 		rf_writeEn = 1'b0;
 		mem_writeEn = 2'b00;
 		PC_sel = 1'b1;
@@ -152,7 +154,7 @@ module control (/*F*/	halt,
 					end
 					
 		5'b001?? : begin /*JD...*/ 
-						/*D*/ 	rf_writeEn = I_op[1]; rf_sel = 2'b11;
+						/*D*/ 	rf_writeEn = I_op[1]; rf_sel = 2'b11;	J_D = 1'b1;
 						/*EX*/	ALU_op = 3'b100; PC_sel = 1'b0; DI_sel = I_op[0]; ALUsrc = 1'b1; I_sel = 2'b10;
 						/*WB*/	memreg = 2'b10;
 					end

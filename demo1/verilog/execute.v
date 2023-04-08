@@ -50,8 +50,6 @@ module execute (/*OUT*/ pcNext, ALU_out, bypass, ALU_cOut, B_take, ALU_Of1,
    //cla16b add_pc_2_JB (.sum(pc_2_JPB), .cOut(cOut), .inA(PC_2), .inB({JPB_mux_out}), .cIn(1'b0));
    
    mux2_1 DI_mux [15:0](.out(add_mux_out), .inputA(PC_2_D), .inputB(JPB_mux_out), .sel(DI_sel));
-   
-   //mux2_1 PC_mux [15:0](.out(pcNext), .inputA(16'h0002), .inputB(PC_2), .sel(PC_sel));
    assign pcNext = (PC_sel)? PC_2: add_mux_out;
 endmodule
 `default_nettype wire

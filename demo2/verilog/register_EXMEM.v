@@ -13,6 +13,7 @@ module register_EXMEM (
 	/*F*/	PC_2_q,			PC_2,
 	/*ctr*/	rf_writeEn_q,	rf_writeEn,
 			rf_sel_out_q,	rf_sel_out,
+			J_q,			J,
 	/*D*/	read2OutData_q,	read2OutData,	
 			compare_q,		compare,
 			I_mux_out_q,	I_mux_out,
@@ -35,6 +36,7 @@ module register_EXMEM (
 	/*ctr*/
 	output wire			rf_writeEn_q;	input wire 		rf_writeEn;
 	output wire	[2:0]	rf_sel_out_q;	input wire 	[2:0]		rf_sel_out;
+	output wire 		J_q;			input wire		J;
 	
 	/*D*/	
 	output wire[15:0]	read2OutData_q;	input wire[15:0]	read2OutData;
@@ -63,6 +65,7 @@ module register_EXMEM (
 	/*ctr*/
 	register#(.size(1)) rf_writeEn_dffs	(.q(rf_writeEn_q),	.d(rf_writeEn),.clk(clk), .rst(rst),.en(reg_en));
 	register#(.size(3)) rf_sel_out_dffs		(.q(rf_sel_out_q),	.d(rf_sel_out),.clk(clk), .rst(rst), .en(reg_en));
+	register#(.size(1)) J_dffs		(.q(J_q),			.d(J),.clk(clk), .rst(rst), .en(reg_en));
 	
 	/*D*/
 	register#(.size(16)) r2d_dffs 		(.q(read2OutData_q), .d(read2OutData), .clk(clk), .rst(rst),.en(reg_en));

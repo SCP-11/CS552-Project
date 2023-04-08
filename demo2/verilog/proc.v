@@ -67,13 +67,14 @@ module proc (/*AUTOARG*/
 	wire compare_q,	compareM,	compareEX,	compare, B_take;
 	
 	wire 		en_EXMEM,	en_FD;
+	wire		J_D,	J_EX,	J_MEM;
 	
 	fetch fetch0( 	.PC_2_D(PC_2_D_F), 	.PC_2(PC_2_F), 	.I_mem_out(I_mem_out),
 					.pcNext(pcNext),	.JPB_mux_out(JPB_mux_out),	.halt(halt_D),	.PC_sel(PC_sel),	.DI_sel(DI_sel),
 					.clk(clk), .rst(rst)
 					);
 	
-	assign I = (rst)? 16'h0800:	I_mem_out;
+	assign I = (rst|J_D|J_EX|J_MEM)? 16'h0800/*NOP*/:	I_mem_out;
 	register_FD rg_FD(
 	/*F*/	.I_mem_out_q(I_mem_out_q),			.I_mem_out(I),
 			.PC_2_q(PC_2_DE),					.PC_2(PC_2_F),	
@@ -83,13 +84,14 @@ module proc (/*AUTOARG*/
 			);
 
 	control ctr (	/*F*/	.halt(halt_D),
+					/*ctr*/	.J_D(J_D),
 					/*D*/	.rf_sel(rf_sel), .I_sel(I_sel), .rf_writeEn(rf_writeEn_ctr), .I_op(I_mem_out_q[15:11]),
 					/*EX*/	.ALUsrc(ALUsrc), .ALU_op(ALU_op), .PC_sel(PC_sel), .DI_sel(DI_sel), 
 							.rev_sel(rev_sel), .func(I_mem_out_q[1:0]), .invB(invB), .invA(invA), .B_op(B_op), .B(B), 
 							.bypass_sel(bypass_sel), .B_take(B_take),
 					/*MEM*/	.mem_writeEn(mem_writeEn_D),
 					/*WB*/	.memreg(memreg_D), .diff_op(diff_op_D), .compare(compare));
-				
+	
 	decode decode0(	.read1OutData(read1OutData), .read2OutData(read2OutData_D), .I_mux_out(I_mux_out), 
 					.rf_sel_out(rf_sel_out_ctr),
 					.I_mem_out(I_mem_out_q), .writeInData(writeInData), .rf_sel_in(rf_sel_out_WB),
@@ -103,12 +105,13 @@ module proc (/*AUTOARG*/
 	/*ctr*/	.rf_writeEn_q(rf_writeEn_EX),		.rf_writeEn(rf_writeEn_ctr),
 			.rf_sel_out_q(rf_sel_out_EX),		.rf_sel_out(rf_sel_out_ctr),
 			.PC_sel_q(PC_sel_q),				.PC_sel(PC_sel),
+			.DI_sel_q(DI_sel_q),				.DI_sel(DI_sel),
+			.J_q(J_EX),							.J(J_D),
 	/*D*/	.read1OutData_q(read1OutData_q),	.read1OutData(read1OutData),	
 			.read2OutData_q(read2OutData_EX),	.read2OutData(read2OutData_D),	
 			.compare_q(compareEX),				.compare(compare),
 			.ALU_op_q(ALU_op_q),				.ALU_op(ALU_op),
 			.ALUsrc_q(ALUsrc_q),				.ALUsrc(ALUsrc),
-			.DI_sel_q(DI_sel_q),				.DI_sel(DI_sel),
 			.rev_sel_q(rev_sel_q),				.rev_sel(rev_sel),	
 			.invB_q(invB_q),					.invB(invB),
 			.invA_q(invA_q),					.invA(invA),
@@ -135,7 +138,8 @@ module proc (/*AUTOARG*/
 	/*F*/	.PC_2_q(PC_2_MEM),					.PC_2(PC_2_EX),
 	/*ctr*/	.rf_writeEn_q(rf_writeEn_MEM),		.rf_writeEn(rf_writeEn_EX),
 			.rf_sel_out_q(rf_sel_out_MEM),		.rf_sel_out(rf_sel_out_EX),
-			.halt_q(halt_MEM),					.halt(halt_EX),				
+			.halt_q(halt_MEM),					.halt(halt_EX),
+			.J_q(J_MEM),							.J(J_EX),				
 	/*D*/	.read2OutData_q(read2OutData_MEM),	.read2OutData(read2OutData_EX),	
 			.compare_q(compareM),				.compare(compareEX),
 			.I_mux_out_q(I_mux_out_MEM),		.I_mux_out(I_mux_out_EX),

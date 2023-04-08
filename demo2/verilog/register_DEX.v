@@ -16,6 +16,7 @@ module register_DEX (
 			rf_sel_out_q,	rf_sel_out,
 			PC_sel_q,		PC_sel,
 			DI_sel_q,		DI_sel,
+			J_q,			J,
 	/*D*/	read1OutData_q,	read1OutData,
 			read2OutData_q,	read2OutData,
 			compare_q,		compare,	
@@ -44,7 +45,7 @@ module register_DEX (
 	output wire	[2:0]	rf_sel_out_q;	input wire 	[2:0]		rf_sel_out;
 	output wire			PC_sel_q;		input wire 		PC_sel;
 	output wire			DI_sel_q;		input wire 		DI_sel;
-	
+	output wire 		J_q;			input wire		J;
 	/*D*/
 	output wire [15:0]	read1OutData_q;	input wire [15:0]	read1OutData;
 	output wire [15:0]	read2OutData_q;	input wire [15:0]	read2OutData;
@@ -77,6 +78,7 @@ module register_DEX (
 	register#(.size(3)) rf_sel_out_dffs	(.q(rf_sel_out_q),	.d(rf_sel_out),.clk(clk), .rst(rst), .en(reg_en));
 	register#(.size(1)) PC_sel_dffs		(.q(PC_sel_q),		.d(PC_sel),.clk(clk), .rst(rst), .en(reg_en));
 	register#(.size(1)) DI_sel_dffs		(.q(DI_sel_q),		.d(DI_sel),.clk(clk), .rst(rst), .en(reg_en));
+	register#(.size(1)) J_dffs		(.q(J_q),			.d(J),.clk(clk), .rst(rst), .en(reg_en));
 	
 	/*D*/
 	register#(.size(16)) r1d_dffs		(.q(read1OutData_q), .d(read1OutData), .clk(clk), .rst(rst), .en(reg_en));
