@@ -12,6 +12,7 @@
 module register_EXMEM (
 	/*F*/	PC_2_q,			PC_2,
 	/*ctr*/	rf_writeEn_q,	rf_writeEn,
+			rf_sel_out_q,	rf_sel_out,
 	/*D*/	read2OutData_q,	read2OutData,	
 			compare_q,		compare,
 			I_mux_out_q,	I_mux_out,
@@ -25,7 +26,7 @@ module register_EXMEM (
 			ALU_out_q,		ALU_out,	
 			ALU_cOut_q,		ALU_cOut,
 			
-			clk, rst
+			clk, rst, en
 			);
 			
 	/*F*/
@@ -33,6 +34,7 @@ module register_EXMEM (
 	
 	/*ctr*/
 	output wire			rf_writeEn_q;	input wire 		rf_writeEn;
+	output wire	[2:0]	rf_sel_out_q;	input wire 	[2:0]		rf_sel_out;
 	
 	/*D*/	
 	output wire[15:0]	read2OutData_q;	input wire[15:0]	read2OutData;
@@ -49,29 +51,33 @@ module register_EXMEM (
 	output wire [15:0]	ALU_out_q;		input wire [15:0] 	ALU_out;
 	output wire	 		ALU_cOut_q;		input wire 			ALU_cOut;
 	
-    input wire     clk;					input wire     rst;
+    input wire	clk;	input wire	rst;	input wire	en;
+	
+	wire 		reg_en;
+	assign reg_en = en&~rst;
+    
 	
 	/*F*/
-	dff PC_2_dffs 		[0:15]	(.q(PC_2_q), .d(PC_2), .clk(clk), .rst(rst));
+	register#(.size(16)) PC_2_dffs 		(.q(PC_2_q), .d(PC_2), .clk(clk), .rst(rst),.en(reg_en));
 	
 	/*ctr*/
-	dff rf_writeEn_dffs			(.q(rf_writeEn_q),	.d(rf_writeEn),.clk(clk), .rst(rst));
+	register#(.size(1)) rf_writeEn_dffs	(.q(rf_writeEn_q),	.d(rf_writeEn),.clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(3)) rf_sel_out_dffs		(.q(rf_sel_out_q),	.d(rf_sel_out),.clk(clk), .rst(rst), .en(reg_en));
 	
 	/*D*/
-	dff r2d_dffs 		[0:15]	(.q(read2OutData_q), .d(read2OutData), .clk(clk), .rst(rst));
-	dff compare_dffs			(.q(compare_q), .d(compare), .clk(clk), .rst(rst));
-	dff I_mux_out_dffs 	[0:15]	(.q(I_mux_out_q), .d(I_mux_out), .clk(clk), .rst(rst));
-	dff memreg_dffs		[0:1]	(.q(memreg_q), 	.d(memreg), .clk(clk), .rst(rst));
-	dff diff_op_dffs	[0:1]	(.q(diff_op_q),	.d(diff_op), .clk(clk), .rst(rst));
-	dff mem_writeEn_dffs[0:1]	(.q(mem_writeEn_q), .d(mem_writeEn), .clk(clk), .rst(rst));
-	dff halt_dffs 				(.q(halt_q), .d(halt), .clk(clk), .rst(rst));
+	register#(.size(16)) r2d_dffs 		(.q(read2OutData_q), .d(read2OutData), .clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(1)) compare_dffs	(.q(compare_q), .d(compare), .clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(16)) I_mux_out_dffs (.q(I_mux_out_q), .d(I_mux_out), .clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(2)) memreg_dffs		(.q(memreg_q), 	.d(memreg), .clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(2)) diff_op_dffs	(.q(diff_op_q),	.d(diff_op), .clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(2)) mem_writeEn_dffs(.q(mem_writeEn_q), .d(mem_writeEn), .clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(1)) halt_dffs 		(.q(halt_q), .d(halt), .clk(clk), .rst(rst),.en(reg_en));
 	
 	/*EX*/
-	dff bypass_dffs 	[0:15]	(.q(bypass_q), .d(bypass), .clk(clk), .rst(rst));
-	dff ALU_Of1_dffs 			(.q(ALU_Of1_q), .d(ALU_Of1), .clk(clk), .rst(rst));
-	//dff pcNext_dffs 	[0:15]	(.q(pcNext_q), .d(pcNext), .clk(clk), .rst(rst));
-	dff ALU_out_dffs 	[0:15]	(.q(ALU_out_q), .d(ALU_out), .clk(clk), .rst(rst));
-	dff ALU_cOut_dffs 	[0:15]	(.q(ALU_cOut_q), .d(ALU_cOut), .clk(clk), .rst(rst));
+	register#(.size(16)) bypass_dffs 	(.q(bypass_q), .d(bypass), .clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(1)) ALU_Of1_dffs 	(.q(ALU_Of1_q), .d(ALU_Of1), .clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(16)) ALU_out_dffs 	(.q(ALU_out_q), .d(ALU_out), .clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(1)) ALU_cOut_dffs 	(.q(ALU_cOut_q), .d(ALU_cOut), .clk(clk), .rst(rst),.en(reg_en));
 	
 endmodule
 `default_nettype wire

@@ -134,10 +134,10 @@ module proc_hier_pbench();
    assign RegWrite = DUT.p0.decode0.rf_writeEn;
    // Is register file being written to, one bit signal (1 means yes, 0 means no)
    //    
-   assign WriteRegister = DUT.p0.decode0.regFile0.writeRegSel;
+   assign WriteRegister = DUT.p0.decode0.rf_sel_in;
    // The name of the register being written to. (3 bit signal)
    
-   assign WriteData = DUT.p0.decode0.regFile0.writeInData;
+   assign WriteData = DUT.p0.decode0.writeInData;
    // Data being written to the register. (16 bits)
    
    //assign MemRead =  (DUT.p0.memRxout & ~DUT.p0.notdonem);
@@ -145,16 +145,16 @@ module proc_hier_pbench();
    // Is memory being read, one bit signal (1 means yes, 0 means no)
    
 	//assign MemWrite = (DUT.p0.memWxout & ~DUT.p0.notdonem);
-	assign MemWrite = (DUT.p0.memory0.memReadorWrite & DUT.p0.memory0.memWrite);
+	assign MemWrite = DUT.p0.memory0.memWrite;
    // Is memory being written to (1 bit signal)
    
-   assign MemAddress = DUT.p0.ALU_out_EX;
+   assign MemAddress = DUT.p0.memory0.aluResult;
    // Address to access memory with (for both reads and writes to memory, 16 bits)
    
-   assign MemDataIn = DUT.p0.read2OutData_D;
+   assign MemDataIn = DUT.p0.memory0.writeData;
    // Data to be written to memory for memory writes (16 bits)
    
-   assign MemDataOut = DUT.p0.mem_mem_out;
+   assign MemDataOut = DUT.p0.memory0.mem_mem_out;
    // Data read from memory for memory reads (16 bits)
 
    // new added 05/03
@@ -174,7 +174,7 @@ module proc_hier_pbench();
    // Signal indicating a valid data cache hit
    // Above assignment is a dummy example
    
-   assign Halt = DUT.p0.memory0.halt;
+   assign Halt = DUT.p0.halt_WB;
    // Processor halted
    
    

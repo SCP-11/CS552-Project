@@ -16,9 +16,10 @@ module control (/*F*/	halt,
     assign invB = (I_op == 5'b01011)? 1'b1: ((I_op==5'b11011) & (func == 2'b11))? 1'b1: 1'b0; 
 	//assign halt = (I_op == 5'b00000)? 1'b1: 1'b0;
 	always @* begin
-		/*F*/	halt = 1'b0;
+		/*F*/	
+		halt = 1'b0;
 		rf_writeEn = 1'b0;
-		mem_writeEn = 2'b0Z;
+		mem_writeEn = 2'b00;
 		PC_sel = 1'b1;
 		I_sel = 2'b00;
 		ALU_op = 3'b100;
@@ -32,26 +33,27 @@ module control (/*F*/	halt,
 		B = 1'b0;
 		B_op = 2'b00;
 		DI_sel = 1'b0;
+		
 		casex (I_op)
 		5'b00000 : begin /*Halt*/ 
 						/*F*/	halt = 1'b1;
 								rf_writeEn = 1'b0; 
-								mem_writeEn = 2'b0z;  
+								mem_writeEn = 2'b00;  
 					end 
 			
 		5'b00001 : begin /*NOP*/ 
 			rf_writeEn = 1'b0; 
-			mem_writeEn = 2'b0z;  
+			mem_writeEn = 2'b00;  
 			end 
 		5'b0100? : begin /*ADDI, SUBI*/ 
 						/*D*/ 	rf_sel = 2'b01;	I_sel = 2'b00; rf_writeEn = 1'b1; 
 						/*EX*/	ALU_op = {1'b1, I_op[1:0]};	ALUsrc = 1'b1;	PC_sel = 1'b1; bypass_sel = 2'b00; invA = I_op[0];
-						/*MEM*/	mem_writeEn = 2'b0z; 
+						/*MEM*/	mem_writeEn = 2'b00; 
 						/*WB*/	memreg = 2'b11;
 			end 
 		5'b0101? : begin /*XORI, ANDNI*/ 
 			rf_writeEn = 1'b1; 
-			mem_writeEn = 2'b0z; 
+			mem_writeEn = 2'b00; 
 			PC_sel = 1'b1;
 			I_sel = 2'b01;
 			ALU_op = {1'b1, I_op[1:0]};
@@ -111,7 +113,7 @@ module control (/*F*/	halt,
 			end 
 		5'b11011 : begin /*ADD, SUB...*/ 
 			rf_writeEn = 1'b1; 
-			mem_writeEn = 2'b0z; 
+			mem_writeEn = 2'b00; 
 			PC_sel = 1'b1;
 			/*EX*/ALU_op = {1'b1, func}; invA = func[0] & ~func[1];
 			/*MEM*/memreg = 2'b11;
@@ -133,12 +135,12 @@ module control (/*F*/	halt,
 		5'b011?? : begin /*BEQZ...*/ 
 						/*D*/ 	rf_writeEn = 1'b0; I_sel = 2'b10;
 						/*EX*/	B_op = I_op[1:0]; B = 1'b1; DI_sel = 1'b1; PC_sel = ~B_take; 
-						/*MEM*/	mem_writeEn = 2'b0z; 
+						/*MEM*/	mem_writeEn = 2'b00; 
 						/*WB*/	compare = 1'b0; 
 					end
 		5'b11000 : begin /*LBI*/ 
 						/*D*/	rf_writeEn = 1'b1; rf_sel = 2'b00; I_sel = 2'b10;
-						/*EX*/	ALU_op = 3'b100; ALUsrc = 1'b0; mem_writeEn = 2'b0z; rev_sel = 1'b0;
+						/*EX*/	ALU_op = 3'b100; ALUsrc = 1'b0; mem_writeEn = 2'b00; rev_sel = 1'b0;
 						/*MEM*/	PC_sel = 1'b1; 
 						/*WB*/	memreg = 2'b01; compare = 1'b0;
 					end 
@@ -154,6 +156,25 @@ module control (/*F*/	halt,
 						/*EX*/	ALU_op = 3'b100; PC_sel = 1'b0; DI_sel = I_op[0]; ALUsrc = 1'b1; I_sel = 2'b10;
 						/*WB*/	memreg = 2'b10;
 					end
+		/*default	:	begin
+								halt = 1'b0;
+								rf_writeEn = 1'b0;
+								mem_writeEn = 2'b00;
+								PC_sel = 1'b1;
+								I_sel = 2'b00;
+								ALU_op = 3'b100;
+								ALUsrc = 1'b0;
+								memreg = 2'b00;
+								rev_sel = 1'b0;
+								compare = 1'b0;
+								rf_sel = 2'b01;
+								bypass_sel = 2'b00;
+								invA = 1'b0;
+								B = 1'b0;
+								B_op = 2'b00;
+								DI_sel = 1'b0;
+					end
+					*/
 	endcase
 	end 
 endmodule

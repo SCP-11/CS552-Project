@@ -9,20 +9,20 @@
    RESULT IN ZERO FOR THIS PROBLEM.
 */
 `default_nettype none
-module register (q, data, clk, rst, write);
+module register #(parameter size = 16)(q, d, clk, rst, en);
 
-    output wire [15:0] q;
-    input wire [15:0] data;
+    output wire [size-1:0] q;
+    input wire [size-1:0] d;
     input wire     clk;
     input wire     rst;
-	input wire write;
+	input wire en;
 
-	wire [15:0] Qs;
-	wire [15:0] Ds;
+	wire [size-1:0] Qs;
+	wire [size-1:0] Ds;
 	wire muxSig;
 	
-	mux2_1 muxes [0:15](.out(Ds), .inputA(Qs), .inputB(data), .sel(write));
-    dff dffs [0:15](.q(Qs), .d(Ds), .clk(clk), .rst(rst));
+	mux2_1 muxes [0:size-1](.out(Ds), .inputA(Qs), .inputB(d), .sel(en));
+    dff dffs [0:size-1](.q(Qs), .d(Ds), .clk(clk), .rst(rst));
 
 	assign q = Qs;
 	

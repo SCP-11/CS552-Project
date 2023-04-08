@@ -33,14 +33,14 @@ module rf (
 	
 	decoder3to8 decoder (.sel(writeRegSel), .out(writeDec));
 	and2 ands [0:7] (.out(writeSigs),.in1(writeDec),.in2(writeEn));
-	register rs0(.q(r_out[0]), .data(writeInData), .clk(clk), .rst(rst), .write(writeSigs[0]));
-	register rs1(.q(r_out[1]), .data(writeInData), .clk(clk), .rst(rst), .write(writeSigs[1]));
-	register rs2(.q(r_out[2]), .data(writeInData), .clk(clk), .rst(rst), .write(writeSigs[2]));
-	register rs3(.q(r_out[3]), .data(writeInData), .clk(clk), .rst(rst), .write(writeSigs[3]));
-	register rs4(.q(r_out[4]), .data(writeInData), .clk(clk), .rst(rst), .write(writeSigs[4]));
-	register rs5(.q(r_out[5]), .data(writeInData), .clk(clk), .rst(rst), .write(writeSigs[5]));
-	register rs6(.q(r_out[6]), .data(writeInData), .clk(clk), .rst(rst), .write(writeSigs[6]));
-	register rs7(.q(r_out[7]), .data(writeInData), .clk(clk), .rst(rst), .write(writeSigs[7]));
+	register rs0(.q(r_out[0]), .d(writeInData), .clk(clk), .rst(rst), .en(writeSigs[0]));
+	register rs1(.q(r_out[1]), .d(writeInData), .clk(clk), .rst(rst), .en(writeSigs[1]));
+	register rs2(.q(r_out[2]), .d(writeInData), .clk(clk), .rst(rst), .en(writeSigs[2]));
+	register rs3(.q(r_out[3]), .d(writeInData), .clk(clk), .rst(rst), .en(writeSigs[3]));
+	register rs4(.q(r_out[4]), .d(writeInData), .clk(clk), .rst(rst), .en(writeSigs[4]));
+	register rs5(.q(r_out[5]), .d(writeInData), .clk(clk), .rst(rst), .en(writeSigs[5]));
+	register rs6(.q(r_out[6]), .d(writeInData), .clk(clk), .rst(rst), .en(writeSigs[6]));
+	register rs7(.q(r_out[7]), .d(writeInData), .clk(clk), .rst(rst), .en(writeSigs[7]));
 	
 	assign err = ((read1RegSel === 3'bxxx | read1RegSel === 3'bzzz)| 
 					(read2RegSel === 3'bxxx| read2RegSel === 3'bzzz)| 

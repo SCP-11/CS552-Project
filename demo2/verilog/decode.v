@@ -5,24 +5,28 @@
    Description     : This is the module for the overall decode stage of the processor.
 */
 `default_nettype none
-module decode (read1OutData, read2OutData, I_mux_out, clk, rst, I_mem_out, writeInData,
+module decode (read1OutData, read2OutData, I_mux_out, rf_sel_out,
+				I_mem_out, writeInData,	rf_sel_in,
 				/*Control*/
-				rf_sel, I_sel, rf_writeEn);
+				rf_sel, I_sel, rf_writeEn,
+				clk, rst
+				);
 
 	output wire [15:0] read1OutData, read2OutData, I_mux_out;
-	
+	output wire [2:0] rf_sel_out;
 	input wire [15:0] I_mem_out, writeInData;
+	input wire [2:0]	rf_sel_in;
 	input wire [1:0] rf_sel, I_sel;
 	input wire clk, rst, rf_writeEn;
 	
 	wire err;
-	wire [2:0] out_rf_sel;
+	
    // TODO: Your code here
-   assign out_rf_sel = (rf_sel[1])? (rf_sel[0])? 3'b111: I_mem_out[4:2]:
+   assign rf_sel_out = (rf_sel[1])? (rf_sel[0])? 3'b111: I_mem_out[4:2]:
 						(rf_sel[0])? I_mem_out[7:5]: I_mem_out[10:8];
    rf_bypass regFile0(.read1OutData(read1OutData), .read2OutData(read2OutData), 
 			.err(err), .clk(clk), .rst(rst), .read1RegSel(I_mem_out[10:8]), 
-			.read2RegSel(I_mem_out[7:5]), .writeRegSel(out_rf_sel), .writeInData(writeInData),
+			.read2RegSel(I_mem_out[7:5]), .writeRegSel(rf_sel_in), .writeInData(writeInData),
 			.writeEn(rf_writeEn));
    
 	/*mux4_1 I_mux [0:15] (.out(I_mux_out), .inputA({{11{I_mem_out[4]}}, I_mem_out[4:0]}),
