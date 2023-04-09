@@ -7,14 +7,14 @@
 `default_nettype none
 module execute (
 	/*OUT*/ 	/*pcNext, */JPB_mux_out,	add_mux_out,	ALU_out, bypass, ALU_cOut, ALU_Of1,
-	/*IN*/		read1OutData, read2OutData, I, PC_2, PC_2_D, 		
+	/*IN*/		read1OutData, read2OutData, I, PC_2, PC_2_D,	diff_op,
 	/*control*/ ALU_Oper, ALUsrc, PC_sel, DI_sel, 
 				rev_sel, invA, invB, B_op, B, bypass_sel, B_take);
 
    // TODO: Your code here
    input wire [15:0] read1OutData, read2OutData, I, PC_2, PC_2_D;
    input wire [2:0] ALU_Oper;
-   input wire [1:0] B_op, bypass_sel;
+   input wire [1:0] B_op, bypass_sel,	diff_op;
    input wire ALUsrc, B;
    input wire PC_sel, DI_sel, rev_sel, invB, invA;
    
@@ -32,10 +32,24 @@ module execute (
    reverser rev(.out(rev_out), .in(read1OutData));
    
 
+	/////////////////								Compare								//////////////
+   wire [15:0] diff_out;
+   wire equal, RsLessOrEq, more;
+   assign equal = (ALU_out == 16'h0000)? 1'b1: 1'b0;
+   assign RsLessOrEq = (~ALU_out[15])? ((ALU_Of1)? 1'b0: 1'b1): ((ALU_Of1)? 1'b1: 1'b0);
+   assign diff_out = (diff_op[1])? 	(diff_op[0])? 	ALU_cOut:
+													RsLessOrEq: 
+									(diff_op[0])? 	RsLessOrEq & ~(equal): 
+													equal;
+													
+	
    assign IORShift = I | ALU_out; 
-   assign bypass = (bypass_sel[1])? (bypass_sel[0])?IORShift: 
-													IORShift:
-									(bypass_sel[0])?rev_out:
+   
+   
+   //////////////////								Bypass									/////////////////
+   assign bypass = (bypass_sel[1])? (bypass_sel[0])?IORShift: 	//11:	SLBI
+													diff_out:	//10:	SLT...
+									(bypass_sel[0])?rev_out:	//01:	BTR
 													ALU_out;
 													
 			

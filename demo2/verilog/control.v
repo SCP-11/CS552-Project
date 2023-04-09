@@ -26,7 +26,7 @@ module control (/*F*/	halt,
 		I_sel = 2'b00;
 		ALU_op = 3'b100;
 		ALUsrc = 1'b0;
-		memreg = 2'b00;
+		memreg = 2'b00;	//
 		rev_sel = 1'b0;
 		compare = 1'b0;
 		rf_sel = 2'b01;
@@ -130,8 +130,8 @@ module control (/*F*/	halt,
 			end 
 		5'b111?? : begin /*SEQ, SLT...*/ 
 						/*D*/ 	rf_sel = 2'b10; rf_writeEn = 1'b1; 
-						/*EX*/	ALU_op = 3'b100; invA = ~(I_op[1] & I_op[0]); 
-						/*MEM*/	
+						/*EX*/	ALU_op = 3'b100; invA = ~(I_op[1] & I_op[0]);	bypass_sel = 2'b10;
+						/*MEM*/	memreg = 2'b11;	//
 						/*WB*/	compare = 1'b1; diff_op = I_op[1:0];
 					end
 		5'b011?? : begin /*BEQZ...*/ 

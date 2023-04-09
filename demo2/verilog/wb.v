@@ -13,7 +13,10 @@ module wb (rf_write, mem_mem_out, PC_2, I, ALU_out, ALU_carry, ALU_Of1, memreg, 
    input wire compare, ALU_carry, ALU_Of1;
    output wire[15:0] rf_write;
    
-   wire [15:0] mem_mux_out, diff_out;
+   wire [15:0] mem_mux_out;
+   
+   /*
+   wire [15:0] diff_out;
    wire equal, RsLessOrEq, more;
    assign equal = (ALU_out == 16'h0000)? 1'b1: 1'b0;
    assign RsLessOrEq = (~ALU_out[15])? ((ALU_Of1)? 1'b0: 1'b1): ((ALU_Of1)? 1'b1: 1'b0);
@@ -21,11 +24,12 @@ module wb (rf_write, mem_mem_out, PC_2, I, ALU_out, ALU_carry, ALU_Of1, memreg, 
 													RsLessOrEq: 
 									(diff_op[0])? 	RsLessOrEq & ~(equal): 
 													equal;
+													*/
    //mux4_1 WB_mux [15:0](.out(mem_mux_out), .inputA(mem_mem_out), .inputB(I), .inputC(PC_2), .inputD(rev_mux_out), .sel(memreg));
    assign mem_mux_out = (memreg[1])? (memreg[0])? bypass: PC_2:
 						(memreg[0])? I: mem_mem_out;
    
-   mux2_1 compare_mux [15:0](.out(rf_write), .inputA(mem_mux_out), .inputB(diff_out), .sel(compare/*Add D mux control*/));
-	
+   //mux2_1 compare_mux [15:0](.out(rf_write), .inputA(mem_mux_out), .inputB(diff_out), .sel(compare/*Add D mux control*/));
+	assign rf_write = mem_mux_out;
 endmodule
 `default_nettype wire

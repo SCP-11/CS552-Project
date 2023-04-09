@@ -150,7 +150,7 @@ module proc (/*AUTOARG*/
 			.halt_q(halt_EX),					.halt(halt_D),	
 			.I_mux_out_q(I_mux_out_EX),			.I_mux_out(I_mux_out),
 			
-			.clk(clk), .rst(rst),	.en(1'b1)
+			.clk(clk), .rst(rst|B_take),	.en(1'b1)
 			);
 				
 	//EX->EX forwarding
@@ -164,7 +164,7 @@ module proc (/*AUTOARG*/
 	/*OUT*/		/*.pcNext(pcNext), */.JPB_mux_out(JPB_mux_out),	.add_mux_out(add_mux_out),
 				.ALU_out(ALU_out_EX), .bypass(bypass_EX), 
 				.ALU_cOut(ALU_cOut_EX), .ALU_Of1(ALU_Of1_EX),
-	/*IN*/		.read1OutData(read1OutData_EX), .read2OutData(read2OutData_EX), .I(I_mux_out_EX), 
+	/*IN*/		.read1OutData(read1OutData_EX), .read2OutData(read2OutData_EX), .I(I_mux_out_EX), .diff_op(diff_op_EX),
 				.PC_2(PC_2_EX), .PC_2_D(PC_2_D_EX),
 	/*control*/	.ALU_Oper(ALU_op_q), .ALUsrc(ALUsrc_q), .PC_sel(PC_sel_q), .DI_sel(DI_sel_q),
 				.rev_sel(rev_sel_q), .invB(invB_q), .invA(invA_q), .B_op(B_op_q), .B(B_q), .bypass_sel(bypass_sel_q), .B_take(B_take));
