@@ -6,7 +6,7 @@
 */
 `default_nettype none
 module execute (
-	/*OUT*/ 	pcNext, JPB_mux_out,	ALU_out, bypass, ALU_cOut, ALU_Of1,
+	/*OUT*/ 	/*pcNext, */JPB_mux_out,	add_mux_out,	ALU_out, bypass, ALU_cOut, ALU_Of1,
 	/*IN*/		read1OutData, read2OutData, I, PC_2, PC_2_D, 		
 	/*control*/ ALU_Oper, ALUsrc, PC_sel, DI_sel, 
 				rev_sel, invA, invB, B_op, B, bypass_sel, B_take);
@@ -18,10 +18,10 @@ module execute (
    input wire ALUsrc, B;
    input wire PC_sel, DI_sel, rev_sel, invB, invA;
    
-   output wire [15:0] ALU_out, pcNext,	JPB_mux_out, bypass;
+   output wire [15:0] ALU_out/*, pcNext*/,	JPB_mux_out, add_mux_out,	bypass;
    output wire ALU_cOut, B_take, ALU_Of1;
    
-   wire [15:0] ALU_mux_out,	pc_2_JPB, rev_out, IORShift,	add_mux_out;
+   wire [15:0] ALU_mux_out,	pc_2_JPB, rev_out, IORShift/*,	add_mux_out*/;
    wire cOut, zero, PC2_I_sel;
 	
 

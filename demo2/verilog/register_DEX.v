@@ -12,6 +12,7 @@
 module register_DEX (
 	/*F*/	PC_2_q,			PC_2,
 			PC_2_D_q,		PC_2_D,
+			I_mem_out_q,	I_mem_out,
 	/*ctr*/	rf_writeEn_q,	rf_writeEn,
 			rf_sel_out_q,	rf_sel_out,
 			PC_sel_q,		PC_sel,
@@ -39,6 +40,7 @@ module register_DEX (
 	/*F*/	
 	output wire [15:0] 	PC_2_q;			input wire [15:0]	PC_2;
 	output wire [15:0]	PC_2_D_q;		input wire [15:0]	PC_2_D;
+	output wire [15:0]	I_mem_out_q;	input wire [15:0]	I_mem_out;
 	
 	/*ctr*/
 	output wire			rf_writeEn_q;	input wire 		rf_writeEn;
@@ -72,6 +74,8 @@ module register_DEX (
 	/*F*/
 	register#(.size(16)) PC_2_dffs 		(.q(PC_2_q), .d(PC_2), .clk(clk), .rst(rst), .en(reg_en));
 	register#(.size(16)) PC_2_D_dffs 	(.q(PC_2_D_q), .d(PC_2_D), .clk(clk), .rst(rst), .en(reg_en));
+	register#(.size(16)) I_mem_out_dffs 	(.q(I_mem_out_q), .d(I_mem_out), .clk(clk), .rst(rst), .en(reg_en));
+	
 	
 	/*ctr*/
 	register#(.size(1)) rf_writeEn_dffs	(.q(rf_writeEn_q),	.d(rf_writeEn),.clk(clk), .rst(rst), .en(reg_en));

@@ -13,6 +13,8 @@ module register_FD (/*D*/	I_mem_out_q, 	I_mem_out,
 							PC_2_q,			PC_2,
 							PC_2_D_q,		PC_2_D,
 							
+							nop,
+							
 							clk, rst, en);
 
     output wire [15:0] 	/*D*/	I_mem_out_q,
@@ -21,16 +23,18 @@ module register_FD (/*D*/	I_mem_out_q, 	I_mem_out,
     input wire [15:0] 	/*D*/	I_mem_out,
 						/*EX*/	PC_2,	PC_2_D;
 
-    input wire     clk,	rst, en;
+    input wire     nop,	clk,	rst, en;
 	
+	wire 		[15:0]			I;
 	wire 		reg_en;
 	assign reg_en = en&~rst;
     //register PC_2_D_registers [0:15](.q(PC_2_D_q), .d(PC_2_D), .clk(clk), .rst(rst));
 	//register PC_2_D_registers [0:15](.q(PC_2_q), .d(PC_2), .clk(clk), .rst(rst));
 	
+	assign I = (nop)? 16'h0800/*NOP*/:	I_mem_out;
 	/*D*/
 	register	#(.size(16))	I_mem_out_registers(.q(I_mem_out_q), 
-													.d(I_mem_out), .clk(clk), .rst(rst), .en(reg_en));
+													.d(I), .clk(clk), .rst(rst), .en(reg_en));
 	
 	/*EX*/
 	register	#(.size(16))	PC_2_registers(		.q(PC_2_q), 
