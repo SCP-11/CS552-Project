@@ -9,8 +9,9 @@
    RESULT IN ZERO FOR THIS PROBLEM.
 */
 `default_nettype none
-module register #(parameter size = 16)(q, d, clk, rst, en);
+module register (q, d, clk, rst, en);
 
+	parameter size = 16;
     output wire [size-1:0] q;
     input wire [size-1:0] d;
     input wire     clk;
