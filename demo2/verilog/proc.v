@@ -45,7 +45,7 @@ module proc (/*AUTOARG*/
 	wire [1:0] 	rf_sel, I_sel, 
 				B_op_q,	B_op, 
 				bypass_sel_q,	bypass_sel;
-	wire 		rf_writeEn_WB,	rf_writeEn_MEM,	rf_writeEn_EX,	rf_writeEn_ctr, 
+	wire 		rf_writeEn_WB,	rf_writeEn_MEM,	rf_writeEn_D_harzard,	rf_writeEn_EX,	rf_writeEn_ctr, 
 				invB_q,	invB,
 				invA_q, invA,
 				B_q,	B, 
@@ -65,23 +65,24 @@ module proc (/*AUTOARG*/
 	wire [2:0] 	ALU_op_q,	ALU_op;
 	/*MEM*/
 	wire [15:0] mem_mem_out_q, mem_mem_out;
-	wire [1:0] 	mem_writeEn_MEM,	mem_writeEn_EX,	mem_writeEn_D;
+	wire [1:0] 	mem_writeEn_MEM,	mem_writeEn_D_harzard,	mem_writeEn_EX,	mem_writeEn_D;
 	/*WB*/
 	wire [1:0] 	memreg_WB,	memreg_MEM,	memreg_EX,	memreg_D, 
 				diff_op_WB,	diff_op_MEM,	diff_op_EX,	diff_op_D;
-	wire compare_q,	compareM,	compareEX,	compare, B_take;
+	wire compare_q,	compareM,	compareEX,	compare;
+	wire 		B_take,	B_take_MEM;
 	
 	wire 		en_EXMEM,	en_FD;
 	wire		J_D,	J_EX,	J_MEM;
-	wire 		stall;
+	wire 		stall,	DXmemREADharzard;
 	
 	fetch fetch0( 	.PC_2_D(PC_2_D_F), 	.PC_2(PC_2_F), 	.I_mem_out(I_mem_out),
-					/*.pcNext(pcNext),*/	.JPB_mux_out(JPB_mux_out),	.add_mux_out(add_mux_out),	.en(~halt_D&~stall),	
+					/*.pcNext(pcNext),*/	.JPB_mux_out(JPB_mux_out),	.add_mux_out(add_mux_out),	.en(B_take|(~halt_D&~stall)),	
 					.PC_sel(PC_sel_final),	.DI_sel(DI_sel_q),
 					.clk(clk), .rst(rst)
 					);
 	
-	assign nop = rst|J_D|J_EX|B_take;
+	assign nop = rst|J_D|J_EX|B_take|halt_D;
 	
 	register_FD rg_FD(
 	/*F*/	.I_mem_out_q(I_mem_out_D),			.I_mem_out(I_mem_out),
@@ -108,8 +109,11 @@ module proc (/*AUTOARG*/
 					.clk(clk), .rst(rst));
 					
 		
-	assign stall = 	1'b0;//((~mem_writeEn_EX[0])/*ID/EX.MemRead*/ & (rf_sel_out_EX != 3'b000) & 
+	assign stall = 	(~rst)&(DXmemREADharzard);//((~mem_writeEn_EX[0])/*ID/EX.MemRead*/ & (rf_sel_out_EX != 3'b000) & 
 					//((rf_sel_out_EX == I_mem_out_q[10:8]) | (rf_sel_out_EX == I_mem_out_q[7:5])));
+	assign rf_writeEn_D_harzard = (stall)?	1'b0:	rf_writeEn_ctr;
+	assign mem_writeEn_D_harzard = (stall)?	2'b00:	mem_writeEn_D;
+					
 	assign PC_sel_final = (B_take|J_EX)? 1'b0:	PC_sel;
 					
 	//Forwarding
@@ -124,11 +128,12 @@ module proc (/*AUTOARG*/
 	assign read2OutData_DF = 	(EE_forwarding_2)? EE_forwarding_data:	
 								(ME_forwarding_2)?	ME_forwarding_data:	read2OutData_D;
 	
+	
 	register_DEX rg_DEX(
 	/*F*/	.PC_2_q(PC_2_EX),					.PC_2(PC_2_DE),	
 			.PC_2_D_q(PC_2_D_EX),				.PC_2_D(PC_2_D_D),	
 			.I_mem_out_q(I_mem_out_EX),			.I_mem_out(I_mem_out_D),
-	/*ctr*/	.rf_writeEn_q(rf_writeEn_EX),		.rf_writeEn(rf_writeEn_ctr),
+	/*ctr*/	.rf_writeEn_q(rf_writeEn_EX),		.rf_writeEn(rf_writeEn_D_harzard),
 			.rf_sel_out_q(rf_sel_out_EX),		.rf_sel_out(rf_sel_out_ctr),
 			.PC_sel_q(PC_sel_q),				.PC_sel(PC_sel),
 			.DI_sel_q(DI_sel_q),				.DI_sel(DI_sel),
@@ -146,12 +151,18 @@ module proc (/*AUTOARG*/
 			.memreg_q(memreg_EX),				.memreg(memreg_D),
 			.bypass_sel_q(bypass_sel_q),		.bypass_sel(bypass_sel),
 			.diff_op_q(diff_op_EX),				.diff_op(diff_op_D),
-			.mem_writeEn_q(mem_writeEn_EX),		.mem_writeEn(mem_writeEn_D),
+			.mem_writeEn_q(mem_writeEn_EX),		.mem_writeEn(mem_writeEn_D_harzard),
 			.halt_q(halt_EX),					.halt(halt_D),	
 			.I_mux_out_q(I_mux_out_EX),			.I_mux_out(I_mux_out),
 			
 			.clk(clk), .rst(rst|B_take),	.en(1'b1)
 			);
+				
+	//DX memory read hazard
+	assign DXmemREADharzard = 
+				((rf_sel_out_EX === I_mem_out_D[10:8]) | (rf_sel_out_EX === I_mem_out_D[7:5])) 
+				& (memreg_EX === 2'b00)
+				&	rf_writeEn_EX;
 				
 	//EX->EX forwarding
 	assign 		EE_forwarding_data = (memreg_EX[1])? (memreg_EX[0])? bypass_EX: PC_2_EX:
@@ -189,6 +200,7 @@ module proc (/*AUTOARG*/
 			.ALU_Of1_q(ALU_Of1_MEM),			.ALU_Of1(ALU_Of1_EX),
 			.ALU_out_q(ALU_out_MEM),			.ALU_out(ALU_out_EX),	
 			.ALU_cOut_q(ALU_cOut_MEM),			.ALU_cOut(ALU_cOut_EX),
+			.B_take_q(B_take_MEM),				.B_take(B_take),
 			
 			.clk(clk), .rst(rst),	.en(1'b1)
 			);
@@ -201,7 +213,7 @@ module proc (/*AUTOARG*/
 	
 	
 	/*												MEMORY														*/	
-	memory memory0(.mem_mem_out(mem_mem_out), .writeData(read2OutData_MEM), .aluResult(ALU_out_MEM), .clk(clk), .rst(rst), 
+	memory memory0(.mem_mem_out(mem_mem_out), .writeData(read2OutData_MEM), .mem_address(ALU_out_MEM), .clk(clk), .rst(rst), 
 				/*control*/.mem_writeEn(mem_writeEn_MEM), .halt(halt_MEM));
 			
 	register_MW rg_MW(

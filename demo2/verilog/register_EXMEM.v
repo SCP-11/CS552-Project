@@ -27,6 +27,7 @@ module register_EXMEM (
 			//pcNext_q,		pcNext,	
 			ALU_out_q,		ALU_out,	
 			ALU_cOut_q,		ALU_cOut,
+			B_take_q,		B_take,
 			
 			clk, rst, en
 			);
@@ -54,6 +55,7 @@ module register_EXMEM (
 	//output wire [15:0] 	pcNext_q;		input wire[15:0]	pcNext;
 	output wire [15:0]	ALU_out_q;		input wire [15:0] 	ALU_out;
 	output wire	 		ALU_cOut_q;		input wire 			ALU_cOut;
+	output wire	 		B_take_q;		input wire 			B_take;
 	
     input wire	clk;	input wire	rst;	input wire	en;
 	
@@ -81,10 +83,10 @@ module register_EXMEM (
 	register#(.size(1)) halt_dffs 		(.q(halt_q), .d(halt), .clk(clk), .rst(rst),.en(reg_en));
 	
 	/*EX*/
-	register#(.size(16)) bypass_dffs 	(.q(bypass_q), .d(bypass), .clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(16))bypass_dffs 	(.q(bypass_q), .d(bypass), .clk(clk), .rst(rst),.en(reg_en));
 	register#(.size(1)) ALU_Of1_dffs 	(.q(ALU_Of1_q), .d(ALU_Of1), .clk(clk), .rst(rst),.en(reg_en));
-	register#(.size(16)) ALU_out_dffs 	(.q(ALU_out_q), .d(ALU_out), .clk(clk), .rst(rst),.en(reg_en));
+	register#(.size(16))ALU_out_dffs 	(.q(ALU_out_q), .d(ALU_out), .clk(clk), .rst(rst),.en(reg_en));
 	register#(.size(1)) ALU_cOut_dffs 	(.q(ALU_cOut_q), .d(ALU_cOut), .clk(clk), .rst(rst),.en(reg_en));
-	
+	register#(.size(1)) B_take_dffs 	(.q(B_take_q), .d(B_take), .clk(clk), .rst(rst),.en(reg_en));
 endmodule
 `default_nettype wire

@@ -34,7 +34,7 @@ module register_DEX (
 			mem_writeEn_q,	mem_writeEn,
 			halt_q,			halt,
 			I_mux_out_q,	I_mux_out,	
-
+	///*E*/	nop,
 			clk, rst,	en);
 						
 	/*F*/	
@@ -65,12 +65,14 @@ module register_DEX (
 	output wire[1:0]	mem_writeEn_q;	input wire[1:0] mem_writeEn;
 	output wire[15:0] 	I_mux_out_q;	input wire[15:0] I_mux_out;
 	output wire			halt_q;			input wire 	halt;	
-
+	/*E*/
+	//input wire	nop;
     input wire	clk;	input wire	rst;	input wire	en;
 	wire 		reg_en;
 	assign reg_en = en&~rst;
     
 	
+	//assign I = (nop)? 16'h0800/*NOP*/:	I_mem_out;
 	/*F*/
 	register#(.size(16)) PC_2_dffs 		(.q(PC_2_q), .d(PC_2), .clk(clk), .rst(rst), .en(reg_en));
 	register#(.size(16)) PC_2_D_dffs 	(.q(PC_2_D_q), .d(PC_2_D), .clk(clk), .rst(rst), .en(reg_en));

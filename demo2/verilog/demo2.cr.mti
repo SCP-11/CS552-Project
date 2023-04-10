@@ -61,7 +61,12 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	clkrst
 
-} {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/lower verilog/xorAB.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/lower verilog/xorAB.v}
+} {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/proc.v} {0 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/proc.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module proc
+** Error: C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/proc.v(85): (vlog-2730) Undefined variable: 'halt'.
+
+} {4.0 5.0} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/lower verilog/xorAB.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/lower verilog/xorAB.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module xorAB
 
@@ -201,6 +206,13 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 Top level modules:
 	register_MW
 
+} {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/control.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/control.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module control
+
+Top level modules:
+	control
+
 } {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/wb.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/wb.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
 -- Compiling module wb
@@ -214,13 +226,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 
 Top level modules:
 	rf_bypass
-
-} {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/proc_hier_pbench.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/proc_hier_pbench.v}
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module proc_hier_pbench
-
-Top level modules:
-	proc_hier_pbench
 
 } {} {}} {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/alu.v} {1 {vlog -work work -stats=none {C:/Users/Drago/OneDrive - UW-Madison/3rd Spring/ECE552/cs552/project/demo2/verilog/alu.v}
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016

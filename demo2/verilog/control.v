@@ -128,7 +128,7 @@ module control (/*F*/	halt,
 						/*D*/ rf_sel = 2'b10;
 						/*MEM*/ memreg = 2'b11;
 			end 
-		5'b111?? : begin /*SEQ, SLT...*/ 
+		5'b111?? : begin /*SEQ, SLT,	SCO...*/ 
 						/*D*/ 	rf_sel = 2'b10; rf_writeEn = 1'b1; 
 						/*EX*/	ALU_op = 3'b100; invA = ~(I_op[1] & I_op[0]);	bypass_sel = 2'b10;
 						/*MEM*/	memreg = 2'b11;	//

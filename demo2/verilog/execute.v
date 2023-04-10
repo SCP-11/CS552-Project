@@ -53,16 +53,16 @@ module execute (
 													ALU_out;
 													
 			
-   assign B_take = 	((((B_op==2'b00) & (read1OutData == 16'h0000))|
-						((B_op==2'b01) & ~(read1OutData == 16'h0000))|
-						((B_op==2'b10) & (read1OutData[15] == 1'b1))|
-						((B_op==2'b11) & (read1OutData[15] == 1'b0))) & B);
+   assign B_take = 	((	((B_op===2'b00) & 	(read1OutData === 16'h0000))|
+						((B_op===2'b01) & ~	(read1OutData === 16'h0000))|
+						((B_op===2'b10) & 	(read1OutData[15] === 1'b1))|
+						((B_op===2'b11) & 	(read1OutData[15] === 1'b0))) & B);
 
    cla16b add_pc_2_JB (.sum(pc_2_JPB), .cOut(cOut), .inA(PC_2), .inB(I), .cIn(1'b0));
 
-	assign PC2_I_sel = ~B;
-   mux2_1 PC2_I_mux [15:0](.out(JPB_mux_out), .inputA(pc_2_JPB), .inputB(ALU_out), .sel(PC2_I_sel));
-   
+	assign PC2_I_sel = B;
+   //mux2_1 PC2_I_mux [15:0](.out(JPB_mux_out), .inputA(pc_2_JPB), .inputB(ALU_out), .sel(PC2_I_sel));
+   assign JPB_mux_out = (PC2_I_sel)?	pc_2_JPB:	ALU_out;	
    //cla16b add_pc_2_JB (.sum(pc_2_JPB), .cOut(cOut), .inA(PC_2), .inB({JPB_mux_out}), .cIn(1'b0));
    
    mux2_1 DI_mux [15:0](.out(add_mux_out), .inputA(PC_2_D), .inputB(JPB_mux_out), .sel(DI_sel));
