@@ -1,0 +1,262 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/takatoshi/cs552/project/cache/cache_direct/verilog
+vcache
+!s110 1681679704
+!i10b 1
+!s100 Wegio_bBhn^FdMBJ0jXY^2
+IQ]J=<UW20:1f;hPP?3]M<2
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1681671377
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/cache.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/cache.v
+L0 18
+Z2 OP;L;10.7c;67
+r1
+!s85 0
+31
+!s108 1681679704.000000
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/cache.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/cache.v|
+!i113 1
+Z3 o-work work
+Z4 tCvgOpt 0
+vclkrst
+!s110 1681658721
+!i10b 1
+!s100 MEzA=jRf5ln@oQSF7HXIf3
+IHdCJY27iIQgz;UCIFhfoU2
+R1
+R0
+Z5 w1679818606
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/clkrst.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/clkrst.v
+L0 14
+R2
+r1
+!s85 0
+31
+!s108 1681658721.000000
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/clkrst.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/clkrst.v|
+!i113 1
+R3
+R4
+vdff
+Z6 !s110 1681658722
+!i10b 1
+!s100 F^G8EIaUgKJ6DQB2zBzd^2
+IE042g:S@HS0B?lk>C];k<0
+R1
+R0
+R5
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/dff.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/dff.v
+L0 6
+R2
+r1
+!s85 0
+31
+Z7 !s108 1681658722.000000
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/dff.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/dff.v|
+!i113 1
+R3
+R4
+vfinal_memory
+R6
+!i10b 1
+!s100 gZSN<eBCUkM^b]f?VXc8T3
+IX1AlBHWdfj9jVIkT6_28>1
+R1
+R0
+Z8 w1679818607
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/final_memory.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/final_memory.v
+L0 55
+R2
+r1
+!s85 0
+31
+R7
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/final_memory.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/final_memory.v|
+!i113 1
+R3
+R4
+vfour_bank_mem
+R6
+!i10b 1
+!s100 FS[ERPZ7h9RdiUT=<XFZE3
+I:[8J3CF=CaO7zI_Do4>N01
+R1
+R0
+R8
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/four_bank_mem.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/four_bank_mem.v
+L0 69
+R2
+r1
+!s85 0
+31
+R7
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/four_bank_mem.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/four_bank_mem.v|
+!i113 1
+R3
+R4
+vmem_system
+!s110 1681682276
+!i10b 1
+!s100 ACfljc?6IX0LN8cJ<f>P=2
+IQF8]0Mo7Cn`06M3AeRmHP3
+R1
+R0
+w1681682270
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system.v
+L0 6
+R2
+r1
+!s85 0
+31
+!s108 1681682274.000000
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system.v|
+!i113 1
+R3
+R4
+vmem_system_hier
+Z9 !s110 1681658723
+!i10b 1
+!s100 OnYbhbVT3Pj@_jP]O>nAb1
+IngBi1Ec5Z2=]]2SaFeeZc2
+R1
+R0
+Z10 w1679818608
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_hier.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_hier.v
+L0 6
+R2
+r1
+!s85 0
+31
+Z11 !s108 1681658723.000000
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_hier.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_hier.v|
+!i113 1
+R3
+R4
+vmem_system_perfbench
+!s110 1681683019
+!i10b 1
+!s100 lcLRO9:omQ6_c3?2UV1iA0
+Ik]H;4BUK<f;=D2@9nd1_12
+R1
+R0
+w1681683008
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_perfbench.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_perfbench.v
+L0 8
+R2
+r1
+!s85 0
+31
+!s108 1681683018.000000
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_perfbench.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_perfbench.v|
+!i113 1
+R3
+R4
+vmem_system_randbench
+!s110 1681680105
+!i10b 1
+!s100 hngU2@A=6J3FY=7LdFWhJ3
+IdnRGd6S53j3[^g[a_JLXz1
+R1
+R0
+R10
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_randbench.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_randbench.v
+L0 6
+R2
+r1
+!s85 0
+31
+!s108 1681680102.000000
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_randbench.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_randbench.v|
+!i113 1
+R3
+R4
+vmem_system_ref
+R9
+!i10b 1
+!s100 A]YX]h`U^hfM0NkJK_]gK3
+I_olY[XVlJA?Z`e02LRIOI2
+R1
+R0
+R10
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_ref.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_ref.v
+L0 6
+R2
+r1
+!s85 0
+31
+R11
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_ref.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_ref.v|
+!i113 1
+R3
+R4
+vmemc
+R9
+!i10b 1
+!s100 Bd7YJ88=[HE0Pgf;MU^1J3
+I;Tz1AjQBQdi@ZYVES<LzB0
+R1
+R0
+R8
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/memc.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/memc.v
+L0 7
+R2
+r1
+!s85 0
+31
+R11
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/memc.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/memc.v|
+!i113 1
+R3
+R4
+vmemv
+R9
+!i10b 1
+!s100 Dck^hz7F@W5j[Z:N0n1iT3
+IDO8mATZ184;DEdb>Vj6460
+R1
+R0
+R8
+8/home/takatoshi/cs552/project/cache/cache_direct/verilog/memv.v
+F/home/takatoshi/cs552/project/cache/cache_direct/verilog/memv.v
+L0 7
+R2
+r1
+!s85 0
+31
+R11
+!s107 /home/takatoshi/cs552/project/cache/cache_direct/verilog/memv.v|
+!s90 -reportprogress|300|-work|work|-stats=none|/home/takatoshi/cs552/project/cache/cache_direct/verilog/memv.v|
+!i113 1
+R3
+R4
