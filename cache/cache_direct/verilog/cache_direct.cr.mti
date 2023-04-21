@@ -54,6 +54,13 @@ Model Technology ModelSim DE vlog 10.7c Compiler 2018.08 Aug 17 2018
 Top level modules:
 	memv
 
+} {} {}} /home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_perfbench.v {1 {vlog -work work -stats=none /home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_perfbench.v
+Model Technology ModelSim DE vlog 10.7c Compiler 2018.08 Aug 17 2018
+-- Compiling module mem_system_perfbench
+
+Top level modules:
+	mem_system_perfbench
+
 } {} {}} /home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_ref.v {1 {vlog -work work -stats=none /home/takatoshi/cs552/project/cache/cache_direct/verilog/mem_system_ref.v
 Model Technology ModelSim DE vlog 10.7c Compiler 2018.08 Aug 17 2018
 -- Compiling module mem_system_ref

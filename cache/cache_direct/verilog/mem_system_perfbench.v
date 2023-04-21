@@ -87,10 +87,12 @@ module mem_system_perfbench(/*AUTOARG*/);
       test_success = 1'b1;
       req_cycle = 0;
       
+      
       if (!$value$plusargs("addr_trace_file_name=%s", addr_trace_file_name) ) begin
          $display("ERROR: FAIL no input file specified. Cannot proceed. Specify input using the -addr flag to wsrun.pl");
          $stop;
       end
+      //addr_trace_file_name = "../verification/mem.addr";
       $display("Using trace file %s", addr_trace_file_name );
       fd = $fopen(addr_trace_file_name, "r");
    end

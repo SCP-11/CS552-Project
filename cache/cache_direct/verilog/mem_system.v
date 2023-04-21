@@ -41,6 +41,9 @@ module mem_system(/*AUTOARG*/
    wire stall, err_mem, dirty_cache, valid_cache, err_cache, hit_cache;
    wire [3:0] busy;
    parameter memtype = 0;
+
+   //assign CacheHit = hit_cache;
+
    cache #(0 + memtype) c0(// Outputs
                           .tag_out              (tag_out_cache),
                           .data_out             (data_out_cache),
@@ -76,6 +79,7 @@ module mem_system(/*AUTOARG*/
                      .rd                (rd_mem));
    
    // your code here
+   
    reg valid,   dirty;
    reg [3:0] next_state;
    wire [3:0] state;
@@ -86,37 +90,64 @@ module mem_system(/*AUTOARG*/
       err = err_cache | err_mem;
    end
 
-   parameter Idle = 4'b0000;
-   parameter Compare_Tag = 4'b0001;
-   parameter Write_Back_0 = 4'h2;
-   parameter Write_Back_1 = 4'h3;
-   parameter Write_Back_2 = 4'h4;
-   parameter Write_Back_3 = 4'h5;
-   parameter Allocate_0 = 4'h6;
-   parameter Allocate_1 = 4'h7;
-   parameter Allocate_2 = 4'h8;
-   parameter Allocate_3 = 4'h9;
-   always @(*) begin
-      casex(state) 
+   parameter Idle = 4'h0;
+   parameter Compare_Write = 4'h1;
+   parameter Compare_Read = 4'h2;
+   parameter Write_Back_0 = 4'h3;
+   parameter Write_Back_1 = 4'h4;
+   parameter Write_Back_2 = 4'h5;
+   parameter Write_Back_3 = 4'h6;
+   parameter Allocate_0 = 4'h7;
+   parameter Allocate_1 = 4'h8;
+   parameter Allocate_2 = 4'h9;
+   parameter Allocate_3 = 4'ha;
+   always @* begin
+      case(state) 
+
+
          Idle: begin
-            addr_mem = 16'h0000;
+            Done = 1'b0;
+            valid = 1'b0;
+            DataOut = 16'h0;
+            Stall = 1'b0;
+            CacheHit = 1'b0;
+            err = 1'h0;
+            //addr_mem = 16'h0000;
             wr_mem = 1'b0;
             rd_mem = 1'b0;
-            data_in_mem = 16'h0000;
+            //data_in_mem = 16'h0000;
             
-            next_state = Compare_Tag;
+            next_state = (Wr)? Compare_Write: (Rd)? Compare_Read: Idle;
          end
 
-         Compare_Tag: begin
+         Compare_Write: begin
+            
+            CacheHit = (valid_cache & hit_cache);
             comp_cache = 0;
-            write_cache = Wr;
+            //write_cache = Wr;
+            
             valid = (valid_cache & hit_cache)? 1'b1:0;
             data_in_cache = DataIn;
-            tag_in_cache = (valid_cache & hit_cache)? Addr[15:11]:0;
+            offset_cache = offset;
+            tag_in_cache = Addr[15:11];
             dirty = (Wr & valid)? 1'b1:  1'b0;
 
             next_state = (valid)? Idle:  (dirty_cache)? Write_Back_0:  Allocate_0;
          end
+
+         Compare_Read: begin
+
+            CacheHit = hit_cache;
+            comp_cache = 0;
+            write_cache = Wr;
+            valid = (valid_cache & hit_cache)? 1'b1:0;
+            data_in_cache = DataIn;
+            tag_in_cache = Addr[15:11];
+            dirty = (Wr & valid)? 1'b1:  1'b0;
+
+            next_state = (valid)? Idle:  (dirty_cache)? Write_Back_0:  Allocate_0;
+         end
+
 
          Write_Back_0:  begin
             comp_cache = 1'b0;
@@ -125,7 +156,7 @@ module mem_system(/*AUTOARG*/
             wr_mem = 1'b1;
             rd_mem = 1'b0;
             addr_mem = {tag_out_cache, index, 3'b000};
-            data_in_mem = data_out_cache;
+            data_in_mem = data_out_cache;                                                                                                            
             next_state = (busy[0]|stall)? Write_Back_0:  Write_Back_1;
          end
 
@@ -139,7 +170,7 @@ module mem_system(/*AUTOARG*/
             data_in_mem = data_out_cache;
             next_state = (busy[1]|stall)? Write_Back_1:  Write_Back_2;
          end
-
+         
          Write_Back_2:  begin
             comp_cache = 1'b0;
             write_cache = 1'b0;
@@ -169,9 +200,9 @@ module mem_system(/*AUTOARG*/
             wr_mem = 1'b0;
             rd_mem = 1'b1;
             addr_mem = {tag, index, 3'b000};
-            data_in_mem = 16'h0000;///fix
+            //data_in_mem = 16'h0000;///fix
             data_in_cache = data_out_mem;
-            next_state = (busy[0]|stall)? Allocate_0:  Allocate_1;
+            next_state = (stall)? Allocate_0:  Allocate_1;
          end
 
 
@@ -183,7 +214,7 @@ module mem_system(/*AUTOARG*/
             rd_mem = 1'b1;
             addr_mem = {tag, index, 3'b010};
             data_in_cache = data_out_mem;
-            next_state = (busy[1]|stall)? Allocate_1:  Allocate_2;
+            next_state = (stall)?Allocate_1: Allocate_2;
          end
 
          Allocate_2: begin
@@ -194,7 +225,7 @@ module mem_system(/*AUTOARG*/
             rd_mem = 1'b1;
             addr_mem = {tag, index, 3'b100};
             data_in_cache = data_out_mem;
-            next_state = (busy[2]|stall)? Allocate_2:  Allocate_3;
+            next_state = (stall)? Allocate_2:  Allocate_3;
          end
 
          Allocate_3: begin
@@ -205,13 +236,12 @@ module mem_system(/*AUTOARG*/
             rd_mem = 1'b1;
             addr_mem = {tag, index, 3'b110};
             data_in_cache = data_out_mem;
-            next_state = (busy[3]|stall)? Allocate_3:  Compare_Tag;  
+            next_state = (stall)? Allocate_3:  Idle;  
          end
       endcase
    end
    
-   dff state_dff [0:3] (.q(state), .d(next_state), .clk(clk), .rst(rst));
-
+   dff state_dff [3:0] (.q(state), .d(next_state), .clk(clk), .rst(rst));
 
 endmodule // mem_system
 `default_nettype wire

@@ -9,266 +9,266 @@ z2
 cModel Technology
 Z0 d/home/takatoshi/cs552/project/cache/cache_direct/verilog
 vcache
-!s110 1681685573
+Z1 !s110 1682053110
 !i10b 1
 !s100 Wegio_bBhn^FdMBJ0jXY^2
 I5`>U<[dZjLX[zA0R@Ci9i3
-Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 VDg1SIo80bB@j0V0VzS_@n1
 R0
-w1681671377
+w1646509226
 8cache.v
 Fcache.v
 L0 18
-Z2 OP;L;10.7c;67
+Z3 OP;L;10.7c;67
 r1
 !s85 0
 31
-Z3 !s108 1681685573.000000
+Z4 !s108 1682053110.000000
 !s107 memv.v|mem_system.v|mem_system_ref.v|mem_system_randbench.v|mem_system_perfbench.v|mem_system_hier.v|memc.v|four_bank_mem.v|final_memory.v|dff.v|clkrst.v|cache.v|
-Z4 !s90 +define+RANDSEED=3|-work|__work|cache.v|clkrst.v|dff.v|final_memory.v|four_bank_mem.v|memc.v|mem_system_hier.v|mem_system_perfbench.v|mem_system_randbench.v|mem_system_ref.v|mem_system.v|memv.v|
+Z5 !s90 +define+RANDSEED=3|-work|__work|cache.v|clkrst.v|dff.v|final_memory.v|four_bank_mem.v|memc.v|mem_system_hier.v|mem_system_perfbench.v|mem_system_randbench.v|mem_system_ref.v|mem_system.v|memv.v|
 !i113 1
-Z5 o-work __work
-Z6 !s92 +define+RANDSEED=3 -work __work
-Z7 tCvgOpt 0
+Z6 o-work __work
+Z7 !s92 +define+RANDSEED=3 -work __work
+Z8 tCvgOpt 0
 vclkrst
-Z8 !s110 1681685574
+R1
 !i10b 1
 !s100 MEzA=jRf5ln@oQSF7HXIf3
 I6_AHH4c?Gh3dHh=S>S[Dl3
-R1
+R2
 R0
-Z9 w1679818606
+w1646509267
 8clkrst.v
 Fclkrst.v
 L0 14
-R2
+R3
 r1
 !s85 0
 31
-R3
-Z10 !s107 memv.v|mem_system.v|mem_system_ref.v|mem_system_randbench.v|mem_system_perfbench.v|mem_system_hier.v|memc.v|four_bank_mem.v|final_memory.v|dff.v|clkrst.v|cache.v|
 R4
-!i113 1
+Z9 !s107 memv.v|mem_system.v|mem_system_ref.v|mem_system_randbench.v|mem_system_perfbench.v|mem_system_hier.v|memc.v|four_bank_mem.v|final_memory.v|dff.v|clkrst.v|cache.v|
 R5
+!i113 1
 R6
 R7
-vdff
 R8
+vdff
+R1
 !i10b 1
 !s100 F^G8EIaUgKJ6DQB2zBzd^2
 I`<l<ahfib5LObb;M<UG9I1
-R1
+R2
 R0
-R9
+w1646509712
 8dff.v
 Fdff.v
 L0 6
-R2
+R3
 r1
 !s85 0
 31
-R3
-R10
 R4
-!i113 1
+R9
 R5
+!i113 1
 R6
 R7
-vfinal_memory
 R8
+vfinal_memory
+R1
 !i10b 1
 !s100 gZSN<eBCUkM^b]f?VXc8T3
 IFjHR46Lm1P@8lNOz`C]WK1
-R1
+R2
 R0
-Z11 w1679818607
+w1646509318
 8final_memory.v
 Ffinal_memory.v
 L0 55
-R2
+R3
 r1
 !s85 0
 31
-R3
-R10
 R4
-!i113 1
+R9
 R5
+!i113 1
 R6
 R7
-vfour_bank_mem
 R8
+vfour_bank_mem
+R1
 !i10b 1
 !s100 FS[ERPZ7h9RdiUT=<XFZE3
 IVKnQHAHjhl7V9d^PJfZR;3
-R1
+R2
 R0
-R11
+w1646509394
 8four_bank_mem.v
 Ffour_bank_mem.v
 L0 69
-R2
+R3
 r1
 !s85 0
 31
-R3
-R10
 R4
-!i113 1
+R9
 R5
+!i113 1
 R6
 R7
-vmem_system
 R8
-!i10b 1
-!s100 9J8?399=C^gI<TFWTIF7M3
-I6K<zkbmQM?`;lKIfGOVG31
+vmem_system
 R1
+!i10b 1
+!s100 fl]::m]BRaY0CzIaoN`of3
+INeb^h3kjJ4[L@JRCNV1On1
+R2
 R0
-w1681685570
+w1682053022
 8mem_system.v
 Fmem_system.v
 L0 6
-R2
+R3
 r1
 !s85 0
 31
-R3
-R10
 R4
-!i113 1
+R9
 R5
+!i113 1
 R6
 R7
-vmem_system_hier
 R8
+vmem_system_hier
+R1
 !i10b 1
 !s100 OnYbhbVT3Pj@_jP]O>nAb1
 ISBEiWLK3zB>VFe`I8?ff;3
-R1
+R2
 R0
-Z12 w1679818608
+w1646510535
 8mem_system_hier.v
 Fmem_system_hier.v
 L0 6
-R2
+R3
 r1
 !s85 0
 31
-R3
-R10
 R4
-!i113 1
+R9
 R5
+!i113 1
 R6
 R7
-vmem_system_perfbench
 R8
-!i10b 1
-!s100 Pc2<n<YHEaiFC@;D7bHRN0
-IhShg52;FBRNaeCLdcDg:E2
+vmem_system_perfbench
 R1
+!i10b 1
+!s100 e4zcPd;BQn<JGIG1hOXaO3
+IMOH>?R9HOoa96[ANSFRP]2
+R2
 R0
-w1681683070
+w1682052391
 8mem_system_perfbench.v
 Fmem_system_perfbench.v
 L0 8
-R2
+R3
 r1
 !s85 0
 31
-R3
-R10
 R4
-!i113 1
+R9
 R5
+!i113 1
 R6
 R7
-vmem_system_randbench
 R8
+vmem_system_randbench
+R1
 !i10b 1
 !s100 hngU2@A=6J3FY=7LdFWhJ3
 IzIW1a5H_Y1A`4^Ob2;[4P2
-R1
+R2
 R0
-R12
+w1646510473
 8mem_system_randbench.v
 Fmem_system_randbench.v
 L0 6
-R2
+R3
 r1
 !s85 0
 31
-R3
-R10
 R4
-!i113 1
+R9
 R5
+!i113 1
 R6
 R7
-vmem_system_ref
 R8
+vmem_system_ref
+R1
 !i10b 1
 !s100 A]YX]h`U^hfM0NkJK_]gK3
 I:JF1]Y]GSAJU162E9J30e1
-R1
+R2
 R0
-R12
+w1646510463
 8mem_system_ref.v
 Fmem_system_ref.v
 L0 6
-R2
+R3
 r1
 !s85 0
 31
-R3
-R10
 R4
-!i113 1
+R9
 R5
+!i113 1
 R6
 R7
-vmemc
 R8
+vmemc
+R1
 !i10b 1
 !s100 Bd7YJ88=[HE0Pgf;MU^1J3
 I5OOgbJ9k5BnTK=F:joGfe1
-R1
+R2
 R0
-R11
+w1646509426
 8memc.v
 Fmemc.v
 L0 7
-R2
+R3
 r1
 !s85 0
 31
-R3
-R10
 R4
-!i113 1
+R9
 R5
+!i113 1
 R6
 R7
-vmemv
 R8
+vmemv
+R1
 !i10b 1
 !s100 Dck^hz7F@W5j[Z:N0n1iT3
 IcFA2M`UaPGT0I64l2db;E2
-R1
+R2
 R0
-R11
+w1646509696
 8memv.v
 Fmemv.v
 L0 7
-R2
+R3
 r1
 !s85 0
 31
-R3
-R10
 R4
-!i113 1
+R9
 R5
+!i113 1
 R6
 R7
+R8
