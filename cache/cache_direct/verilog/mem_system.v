@@ -34,7 +34,7 @@ module mem_system(/*AUTOARG*/
    wire [4:0] tag_out_cache; 
    reg enable_cache;
    reg [4:0]  tag_in_cache;
-   reg[2:0]   offset_cache;
+   reg[2:0]   offset_cache, offset_mem;
    wire[15:0]  data_out_cache, data_out_mem;
    reg [15:0] data_in_cache, data_in_mem, addr_mem;
    reg comp_cache,  write_cache,
@@ -42,8 +42,6 @@ module mem_system(/*AUTOARG*/
    wire stall, err_mem, dirty_cache, valid_cache, err_cache, hit_cache;
    wire [3:0] busy;
    parameter memtype = 0;
-
-   //assign CacheHit = hit_cache;
 
    cache #(0 + memtype) c0(// Outputs
                           .tag_out              (tag_out_cache),
@@ -81,7 +79,7 @@ module mem_system(/*AUTOARG*/
    
    // your code here
    
-   reg valid,   dirty;
+   reg dirty;
    reg [3:0] next_state;
    wire [3:0] state;
    always @* begin
@@ -103,6 +101,9 @@ module mem_system(/*AUTOARG*/
    parameter Allocate_2 = 4'h9;
    parameter Allocate_3 = 4'ha;
    parameter AccessWrite = 4'hb;
+   parameter AccessRead = 4'hc;
+   parameter Wait_1 = 4'hd;
+   parameter Wait_2 = 4'he;
    always @* begin
       Done = 1'b0;
       comp_cache = 1'b0;
@@ -112,52 +113,35 @@ module mem_system(/*AUTOARG*/
       wr_mem = 1'b0;
       rd_mem = 1'b0;
       DataOut = data_out_cache;
+      //CacheHit = 1'b0;
       case(state) 
-
-
-         
          Idle: begin
             Stall = 1'b0;
-            Done = 1'h1;
-            valid = 1'b0;
             DataOut = 16'h0;
-            CacheHit = 1'b0;
-            err = 1'h0;
-            //addr_mem = 16'h0000;
-            wr_mem = 1'b0;
-            rd_mem = 1'b0;
-            //data_in_mem = 16'h0000;
-            
+
             next_state = (Wr)? Compare_Write: (Rd)? Compare_Read: Idle;
          end
 
          Compare_Write: begin
-            //Done = CacheHit;
             CacheHit = (valid_cache & hit_cache);
-            comp_cache = 0;
-            //write_cache = Wr;
-            
-            valid = (valid_cache & hit_cache)? 1'b1:0;
+            comp_cache = 1'b1;
             data_in_cache = DataIn;
             offset_cache = offset;
-            tag_in_cache = Addr[15:11];
-            dirty = (Wr & valid)? 1'b1:  1'b0;
+            tag_in_cache = tag;
+            dirty = (CacheHit)? 1'b0:  dirty_cache;
 
-            next_state = (valid)? AccessWrite:  (dirty_cache)? Write_Back_0:  Allocate_0;
+            next_state = (CacheHit)? AccessWrite:  (dirty)? Write_Back_0:  Allocate_0;
          end
 
          Compare_Read: begin
-            
-            //Done = CacheHit;
             CacheHit = (valid_cache & hit_cache);
-            comp_cache = 0;
-            //write_cache = Wr;
-            valid = (valid_cache & hit_cache)? 1'b1:0;
-            data_in_cache = DataIn;
+            comp_cache = 1'b1;
+            DataOut = data_out_cache;
             offset_cache = offset;
-            tag_in_cache = Addr[15:11];
-            dirty = (Wr & valid)? 1'b1:  1'b0;
-            next_state = (valid)? Idle:  (dirty_cache)? Write_Back_0:  Allocate_0;
+            tag_in_cache = tag;
+            dirty = (CacheHit)? 1'b0:  dirty_cache;
+            
+            next_state = (CacheHit)? AccessRead:  (dirty)? Write_Back_0:  Allocate_0;
          end
 
 
@@ -205,42 +189,54 @@ module mem_system(/*AUTOARG*/
             next_state = (busy[3]|stall)? Write_Back_3:  Allocate_0;
          end
 
+
          Allocate_0: begin
-            comp_cache = 1'b0;
-            write_cache = 1'b1;
-            offset_cache = 3'b000;
             wr_mem = 1'b0;
             rd_mem = 1'b1;
             addr_mem = {tag, index, 3'b000};
             //data_in_mem = 16'h0000;///fix
-            data_in_cache = data_out_mem;
-            next_state = (stall)? Allocate_0:  Allocate_1;
+            next_state = Allocate_1;
          end
 
 
          Allocate_1: begin
-            comp_cache = 1'b0;
-            write_cache = 1'b1;
-            offset_cache = 3'b010;
             wr_mem = 1'b0;
             rd_mem = 1'b1;
             addr_mem = {tag, index, 3'b010};
-            data_in_cache = data_out_mem;
-            next_state = (stall)?Allocate_1: Allocate_2;
+            next_state = Allocate_2;
          end
 
          Allocate_2: begin
             comp_cache = 1'b0;
             write_cache = 1'b1;
-            offset_cache = 3'b100;
+            offset_cache = 3'b000;
             wr_mem = 1'b0;
             rd_mem = 1'b1;
             addr_mem = {tag, index, 3'b100};
             data_in_cache = data_out_mem;
-            next_state = (stall)? Allocate_2:  Allocate_3;
+            next_state = Allocate_3;
          end
 
          Allocate_3: begin
+            comp_cache = 1'b0;
+            write_cache = 1'b1;
+            offset_cache = 3'b010;
+            wr_mem = 1'b0;
+            rd_mem = 1'b1;
+            addr_mem = {tag, index, 3'b110};
+            data_in_cache = data_out_mem;
+            next_state = Wait_1;  
+         end
+
+         Wait_1: begin
+            comp_cache = 1'b0;
+            write_cache = 1'b1;
+            offset_cache = 3'b100;
+            data_in_cache = data_out_mem;
+            next_state = Wait_2;  
+         end
+
+         Wait_2: begin
             comp_cache = 1'b0;
             write_cache = 1'b1;
             offset_cache = 3'b110;
@@ -248,23 +244,25 @@ module mem_system(/*AUTOARG*/
             rd_mem = 1'b1;
             addr_mem = {tag, index, 3'b110};
             data_in_cache = data_out_mem;
-            next_state = ((busy != 4'b0000) | stall)? Allocate_3: (Wr)? AccessWrite: AccessRead;  
+            next_state = (Wr)? AccessWrite: AccessRead;  
          end
 
+
          AccessWrite: begin
-            
+            comp_cache = 1'b1;
             write_cache = 1'b1;
             offset_cache = offset;
             data_in_cache = DataIn;
             next_state = Idle;
+            Done = 1'b1;
          end
 
          AccessRead: begin
-            
-            write_cache = 1'b1;
+            comp_cache = 1'b0;
             offset_cache = offset;
-            data_in_cache = DataIn;
+            DataOut = data_out_cache;
             next_state = Idle;
+            Done = 1'b1;
          end
 
       endcase
