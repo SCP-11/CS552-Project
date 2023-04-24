@@ -27,9 +27,9 @@ module mem_system(/*AUTOARG*/
    /* data_mem = 1, inst_mem = 0 *
     * needed for cache parameter */
 
-   reg[4:0] tag;
-   reg [7:0]  index;
-   reg [2:0]  offset;
+   wire  [4:0] tag;
+   wire  [7:0]  index;
+   wire  [2:0]  offset;
 
    wire [4:0] tag_out_cache, tag_out_cache_0, tag_out_cache_1; 
    reg enable_cache, enable_cache_0, enable_cache_1;
@@ -118,12 +118,9 @@ module mem_system(/*AUTOARG*/
    reg dirty;
    reg [3:0] next_state;
    wire [3:0] state;
-   always @* begin
-      tag = Addr[15:11];
-      index = Addr[10:3];
-      offset = Addr[2:0];
-      err = err_cache_0 | err_cache_1 | err_mem;
-   end
+   assign   tag = Addr[15:11];
+   assign   index = Addr[10:3];
+   assign   offset = Addr[2:0];
 
    parameter Idle = 4'h0;
    parameter Compare_Write = 4'h1;
@@ -148,6 +145,7 @@ module mem_system(/*AUTOARG*/
       write_cache = 1'b0;
       wr_mem = 1'b0;
       rd_mem = 1'b0;
+      err = err_cache_0 | err_cache_1 | err_mem;
       case(state) 
          Idle: begin
             Stall = 1'b0;
@@ -164,9 +162,9 @@ module mem_system(/*AUTOARG*/
             offset_cache = offset;
             tag_in_cache = tag;
 
-            cache_sel =    (hit_cache_1 & valid_cache_1)?      1'b1: 
-                           (hit_cache_0 & valid_cache_0)?      1'b0: 
-                           (valid_cache_1 & valid_cache_0)?    victimway:
+            cache_sel =    (hit_cache_1 /*& valid_cache_1*/)?      1'b1: 
+                           (hit_cache_0 /*& valid_cache_0*/)?      1'b0: 
+                           (valid_cache_1 & valid_cache_0)?    ~victimway:
                            (valid_cache_1)?                    1'b0:
                            (valid_cache_0)?                    1'b1:1'b0;
             victimway_en = 1'b1;
@@ -186,9 +184,9 @@ module mem_system(/*AUTOARG*/
             offset_cache = offset;
             tag_in_cache = tag;
 
-            cache_sel =    (hit_cache_1 & valid_cache_1)?      1'b1: 
-                           (hit_cache_0 & valid_cache_0)?      1'b0: 
-                           (valid_cache_1 & valid_cache_0)?    victimway:
+           cache_sel =     (hit_cache_1 /*& valid_cache_1*/)?      1'b1: 
+                           (hit_cache_0 /*& valid_cache_0*/)?      1'b0: 
+                           (valid_cache_1 & valid_cache_0)?    ~victimway:
                            (valid_cache_1)?                    1'b0:
                            (valid_cache_0)?                    1'b1:1'b0;
             victimway_en = 1'b1;

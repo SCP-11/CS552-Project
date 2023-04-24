@@ -27,9 +27,9 @@ module mem_system(/*AUTOARG*/
    /* data_mem = 1, inst_mem = 0 *
     * needed for cache parameter */
 
-   reg[4:0] tag;
-   reg [7:0]  index;
-   reg [2:0]  offset;
+   wire [4:0]    tag;
+   wire [7:0]  index;
+   wire [2:0]  offset;
 
    wire [4:0] tag_out_cache; 
    reg enable_cache;
@@ -82,12 +82,10 @@ module mem_system(/*AUTOARG*/
    reg dirty;
    reg [3:0] next_state;
    wire [3:0] state;
-   always @* begin
-      tag = Addr[15:11];
-      index = Addr[10:3];
-      offset = Addr[2:0];
-      err = err_cache | err_mem;
-   end
+   
+   assign tag = Addr[15:11];
+   assign index = Addr[10:3];
+   assign offset = Addr[2:0];
 
    parameter Idle = 4'h0;
    parameter Compare_Write = 4'h1;
@@ -113,6 +111,7 @@ module mem_system(/*AUTOARG*/
       wr_mem = 1'b0;
       rd_mem = 1'b0;
       DataOut = data_out_cache;
+      err = err_cache | err_mem;
       //CacheHit = 1'b0;
       case(state) 
          Idle: begin
